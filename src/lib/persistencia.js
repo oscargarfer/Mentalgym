@@ -14,6 +14,7 @@
  * El orden importa: Electron y Capacitor también corren sobre un origen http,
  * así que se comprueban antes.
  */
+import { Capacitor } from '@capacitor/core'
 
 const RUTA = 'progreso.json'
 const RUTA_RESPALDO = 'progreso.anterior.json'
@@ -146,8 +147,13 @@ const soloNavegador = {
 
 function elegir() {
   if (!hayVentana) return soloNavegador
+  // `window.gimnasio` lo pone el preload antes de que corra nada de la página.
   if (window.gimnasio?.plataforma === 'electron') return electron
-  if (window.Capacitor?.isNativePlatform?.()) return capacitor
+  // Se pregunta a la API de Capacitor y no al global `window.Capacitor`: en el
+  // móvil la app también se sirve por http, así que si la detección llegara
+  // tarde caería en la rama del servidor local, que allí no existe, y el
+  // progreso se quedaría solo en localStorage sin avisar de nada.
+  if (Capacitor.isNativePlatform()) return capacitor
   if (/^https?:$/.test(window.location.protocol)) return http
   return soloNavegador
 }

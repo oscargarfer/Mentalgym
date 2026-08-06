@@ -1,0 +1,74 @@
+appId: com.oscargarcia.gimnasiomental
+productName: Gimnasio Mental
+copyright: © 2026 Oscar Garcia. Todos los derechos reservados.
+
+directories:
+  output: release
+  buildResources: assets
+
+# Solo lo que la app necesita para arrancar: ni los guiones de vocabulario, ni
+# el servidor local, que en la app instalada no pintan nada.
+#
+# node_modules se excluye entero a propósito. Vite ya empaqueta toda la interfaz
+# dentro de dist/, y el proceso principal solo usa `electron` y módulos de Node.
+# Sin esta línea se colarían los plugins de Capacitor —con sus fuentes de
+# Android y de iOS— dentro de una aplicación de escritorio.
+files:
+  - dist/**/*
+  - electron/**/*
+  - package.json
+  - '!**/*.map'
+  - '!node_modules/**/*'
+
+# El progreso del usuario vive en la carpeta de datos del sistema, no aquí, así
+# que desinstalar no se lleva por delante meses de entrenamiento.
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: assets/gimnasio.ico
+  # Sin certificado de firma: Windows mostrará el aviso de SmartScreen la
+  # primera vez. Quitarlo exige un certificado de pago.
+  signAndEditExecutable: true
+
+nsis:
+  oneClick: false
+  perMachine: false # instala para el usuario: no pide permisos de administrador
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Gimnasio Mental
+  installerIcon: assets/gimnasio.ico
+  uninstallerIcon: assets/gimnasio.ico
+  installerHeaderIcon: assets/gimnasio.ico
+  # Desinstalar no debe borrar el progreso: está en %APPDATA%, fuera del
+  # directorio de instalación, y no se toca.
+  deleteAppDataOnUninstall: false
+
+linux:
+  target:
+    - target: deb
+      arch: [x64]
+  icon: assets/linux
+  category: Education
+  synopsis: Gimnasio de atletas mentales y alto rendimiento cognitivo
+  description: >-
+    Entrenamiento de memoria por el metodo de asociacion inverosimil:
+    calentamiento de asociacion flash, memorizacion masiva con medida de
+    velocidad, repaso espaciado, taquistoscopio de lectura, casillero numerico
+    y palacio de la memoria. Funciona sin conexion y no envia ningun dato.
+
+deb:
+  # Electron necesita estas bibliotecas del sistema; sin declararlas, el paquete
+  # instala pero la ventana no abre.
+  depends:
+    - libgtk-3-0
+    - libnotify4
+    - libnss3
+    - libxss1
+    - libxtst6
+    - xdg-utils
+    - libatspi2.0-0
+    - libsecret-1-0

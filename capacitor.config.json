@@ -1,0 +1,25 @@
+{
+  "appId": "com.oscargarcia.gimnasiomental",
+  "appName": "Gimnasio Mental",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#04060c",
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "backgroundColor": "#04060c",
+      "showSpinner": false,
+      "launchAutoHide": true,
+      "launchShowDuration": 400,
+      "androidScaleType": "CENTER_CROP"
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#04060c",
+      "overlaysWebView": false
+    }
+  }
+}
