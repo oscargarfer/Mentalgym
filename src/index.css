@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #04060c;
+  --color-ink-900: #070b14;
+  --color-ink-850: #090f1c;
+  --color-ink-800: #0c1424;
+  --color-ink-700: #121d33;
+  --color-line: #1b2942;
+  --color-line-soft: #131f36;
+
+  --color-cy: #00e5ff;
+  --color-vi: #a855f7;
+  --color-gr: #26ff9c;
+  --color-rd: #ff4d6d;
+  --color-am: #ffb020;
+  --color-mute: #6b83a8;
+
+  --font-sans: "Segoe UI Variable Display", "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", Consolas, ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-ink-950);
+    color: #cbd5e1;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-cy) 40%, transparent);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 999px;
+    border: 3px solid var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2a3d61;
+  }
+}
+
+@layer utilities {
+  /* Rejilla futurista de fondo */
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--color-cy) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--color-cy) 6%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .vignette {
+    background: radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.09), transparent 55%),
+      radial-gradient(ellipse at 90% 100%, rgba(168, 85, 247, 0.09), transparent 55%);
+  }
+
+  .panel {
+    background-color: color-mix(in oklab, var(--color-ink-900) 82%, transparent);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 24px currentColor;
+  }
+
+  .glow-cy {
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-cy) 45%, transparent),
+      0 0 30px -6px color-mix(in oklab, var(--color-cy) 70%, transparent);
+  }
+  .glow-gr {
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-gr) 45%, transparent),
+      0 0 30px -6px color-mix(in oklab, var(--color-gr) 70%, transparent);
+  }
+  .glow-rd {
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-rd) 45%, transparent),
+      0 0 30px -6px color-mix(in oklab, var(--color-rd) 70%, transparent);
+  }
+
+  .scan {
+    position: relative;
+    overflow: hidden;
+  }
+  .scan::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 0%, rgba(0, 229, 255, 0.045) 50%, transparent 100%);
+    background-size: 100% 8px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .anim-pop {
+    animation: pop 180ms cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  }
+  .anim-in {
+    animation: fadeUp 260ms ease-out both;
+  }
+  .anim-flash {
+    animation: flash 120ms ease-out;
+  }
+  .anim-pulse-ring {
+    animation: pulsering 1.6s ease-out infinite;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulsering {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 22px rgba(0, 229, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
+  }
+}

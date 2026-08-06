@@ -1,0 +1,28 @@
+{
+  "name": "gimnasio-mental",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Gimnasio de Atletas Mentales y Alto Rendimiento Cognitivo - velocidad, asociacion y lectura",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "entrenar": "node scripts/launch.mjs",
+    "vocab": "node scripts/sync-vocab.mjs",
+    "icono": "node scripts/make-icon.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^1.28.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.0.5",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.0"
+  }
+}
