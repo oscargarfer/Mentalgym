@@ -1,0 +1,178 @@
+name: Instaladores
+
+# Se dispara al publicar una etiqueta de version (v1.1.0, v1.2.0...) o a mano
+# desde la pestana Actions.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  NODE: '24'
+
+jobs:
+  # Lo barato primero: si la logica de rutas o de guardado esta rota, no tiene
+  # sentido gastar veinte minutos compilando tres instaladores.
+  comprobaciones:
+    name: Comprobaciones
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE }}
+          cache: npm
+      - run: npm ci
+      - name: Logica de empaquetado
+        run: node scripts/probar-empaquetado.mjs
+      - name: Compilar la interfaz
+        run: npm run build
+      # Aqui si se puede arrancar Electron de verdad, con pantalla virtual: se
+      # comprueba que los seis diccionarios y el panel de metricas cargan a
+      # traves del esquema app://, que es lo unico que no se puede verificar
+      # leyendo el codigo.
+      - name: Arrancar la app de escritorio
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64
+          xvfb-run -a npx electron scripts/probar-electron.mjs
+
+  windows:
+    name: Windows (.exe)
+    needs: comprobaciones
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Instalador NSIS
+        run: npx electron-builder --win --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: release/*.exe
+          if-no-files-found: error
+
+  linux:
+    name: Ubuntu (.deb)
+    needs: comprobaciones
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # El .deb necesita fpm, que no funciona en Windows: esta es la razon de
+      # compilar aqui y no en el portatil.
+      - name: Paquete Debian
+        run: npx electron-builder --linux --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: release/*.deb
+          if-no-files-found: error
+
+  android:
+    name: Android (.apk y .aab)
+    needs: comprobaciones
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE }}
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - run: npm ci
+      - run: npm run build
+      - name: Copiar la app al proyecto nativo
+        run: npx cap sync android
+
+      # La clave de firma entra como secreto en base64 y se borra al terminar.
+      # Sin ella se compila igual, pero el APK sale firmado de depuracion: sirve
+      # para instalarlo a mano, no para publicarlo.
+      - name: Preparar la firma
+        id: firma
+        env:
+          ALMACEN: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$ALMACEN" ]; then
+            echo "$ALMACEN" | base64 -d > android/gimnasio.keystore
+            cat > keystore.properties <<EOF
+          storeFile=android/gimnasio.keystore
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          EOF
+            echo "firmado=si" >> "$GITHUB_OUTPUT"
+          else
+            echo "Sin clave de firma: se compilara una version de depuracion."
+            echo "firmado=no" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Compilar
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          if [ "${{ steps.firma.outputs.firmado }}" = "si" ]; then
+            ./gradlew --no-daemon assembleRelease bundleRelease
+          else
+            ./gradlew --no-daemon assembleDebug
+          fi
+
+      - name: Recoger los paquetes
+        run: |
+          mkdir -p release
+          # Los parentesis son necesarios: sin ellos el -print implicito solo se
+          # aplica a la ultima condicion y los .apk no aparecerian.
+          find android/app/build/outputs \( -name '*.apk' -o -name '*.aab' \) -print | while read -r f; do
+            cp "$f" "release/Gimnasio-Mental-1.1.0-$(basename "$f")"
+          done
+          ls -la release
+
+      - name: Borrar la clave
+        if: always()
+        run: rm -f android/gimnasio.keystore keystore.properties
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: release/*
+          if-no-files-found: error
+
+  publicar:
+    name: Publicar version
+    needs: [windows, linux, android]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artefactos
+      - name: Crear la version en GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # En un array, y no expandido en la linea de comandos: los nombres de
+          # los instaladores llevan espacios.
+          mapfile -t ficheros < <(find artefactos -type f | sort)
+          printf '  %s\n' "${ficheros[@]}"
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "Gimnasio Mental ${GITHUB_REF_NAME}" \
+            --notes-file CHANGELOG.md \
+            "${ficheros[@]}"

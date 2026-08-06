@@ -1,0 +1,46 @@
+GIMNASIO MENTAL
+Copyright © 2026 Oscar García. Todos los derechos reservados.
+
+Este programa y su código fuente son propiedad de su autor. No se concede
+ninguna licencia de uso, copia, modificación, distribución, sublicencia ni
+venta salvo acuerdo escrito y firmado con el titular de los derechos.
+
+En particular, y sin que la enumeración sea limitativa, queda prohibido:
+
+  1. Redistribuir el programa, compilado o en código fuente, de forma gratuita
+     o remunerada.
+  2. Crear obras derivadas, adaptaciones o traducciones.
+  3. Descompilar, desensamblar o aplicar ingeniería inversa, salvo en la medida
+     en que la ley aplicable lo permita expresamente pese a esta prohibición.
+  4. Eliminar u ocultar los avisos de autoría de esta o cualquier otra copia.
+
+Quien haya obtenido una copia legítima puede instalarla y usarla en sus propios
+dispositivos, para su uso personal.
+
+EL PROGRAMA SE ENTREGA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+IMPLÍCITA, INCLUIDAS SIN LIMITACIÓN LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD
+PARA UN FIN DETERMINADO Y NO INFRACCIÓN. EN NINGÚN CASO EL AUTOR RESPONDERÁ DE
+RECLAMACIÓN, DAÑO U OTRA RESPONSABILIDAD DERIVADA DEL PROGRAMA O DE SU USO.
+
+Este programa no recoge, transmite ni almacena datos fuera del dispositivo en
+que se ejecuta. Todo el progreso de entrenamiento se guarda localmente.
+
+---
+
+Componentes de terceros
+
+Este programa incorpora bibliotecas de código abierto (React, Vite, Tailwind
+CSS, Recharts, Lucide, Electron y Capacitor, entre otras) que se distribuyen
+bajo sus propias licencias, respetadas en su integridad. Dichas licencias se
+aplican únicamente a esos componentes y no a este programa.
+
+---
+
+ENGLISH SUMMARY
+
+Copyright © 2026 Oscar García. All rights reserved. This is proprietary
+software. No permission is granted to use, copy, modify, distribute, sublicense
+or sell it except under a written agreement with the copyright holder. Lawful
+purchasers may install and use it on their own devices for personal use. The
+software is provided "as is", without warranty of any kind. Third-party
+open-source components remain under their own licences.

@@ -20,15 +20,15 @@ files:
   - '!**/*.map'
   - '!node_modules/**/*'
 
-# El progreso del usuario vive en la carpeta de datos del sistema, no aquí, así
-# que desinstalar no se lleva por delante meses de entrenamiento.
-artifactName: ${productName}-${version}-${os}-${arch}.${ext}
-
 win:
   target:
     - target: nsis
       arch: [x64]
   icon: assets/gimnasio.ico
+  # Sin espacios en el nombre del archivo descargado. El .deb se deja con el
+  # suyo por defecto, que sigue la convención de Debian
+  # (gimnasio-mental_1.1.0_amd64.deb) y conviene respetar.
+  artifactName: Gimnasio-Mental-${version}-windows-${arch}.${ext}
   # Sin certificado de firma: Windows mostrará el aviso de SmartScreen la
   # primera vez. Quitarlo exige un certificado de pago.
   signAndEditExecutable: true

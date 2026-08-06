@@ -1,59 +1,133 @@
 # GIMNASIO MENTAL · Alto Rendimiento Cognitivo
 
-Web app de entrenamiento cerebral basada en el método de **velocidad, asociación y lectura** de
+App de entrenamiento cerebral basada en el método de **velocidad, asociación y lectura** de
 Ramón Campayo, orientada al aprendizaje de idiomas y a la fuerza mental bruta.
 
-100 % operativa vía teclado. Tema oscuro.
+Windows, Ubuntu y Android. Tema oscuro. Operativa al 100 % con teclado, y al 100 % con el dedo.
+No hace ni una sola llamada de red.
+
+## Instalar
+
+| Sistema | Archivo | Cómo |
+| --- | --- | --- |
+| Windows | `Gimnasio-Mental-1.1.0-windows-x64.exe` | Doble clic. No pide permisos de administrador. |
+| Ubuntu | `gimnasio-mental_1.1.0_amd64.deb` | `sudo apt install ./gimnasio-mental_1.1.0_amd64.deb` |
+| Android | `Gimnasio-Mental-1.1.0-app-release.apk` | Copiar al móvil y abrirlo, permitiendo instalar de origen desconocido. |
+
+Windows avisará de que el editor es desconocido la primera vez («Más información» → «Ejecutar de
+todas formas»). Es lo normal en un instalador sin certificado de firma; quitarlo cuesta unos
+200 € al año.
 
 ## Dónde vive tu progreso
 
-En `datos/progreso.json`, junto al proyecto. Se guarda **solo**, en cada cambio y al cerrar la
-pestaña; al abrir, la app lo recupera de ahí. `localStorage` es únicamente una caché: puedes
-limpiar los datos del navegador o cambiar de navegador y tu histórico sigue intacto.
+En un archivo `progreso.json`, fuera del programa, y distinto en cada sistema:
 
-El servidor **rechaza cualquier escritura vacía** sobre un archivo que ya tiene contenido, y
-guarda la versión anterior en `datos/progreso.anterior.json` antes de cada sobrescritura. Si el
-navegador falla, el disco no se lleva el fallo por delante. Borrar de verdad exige el botón de
-borrar historial.
+| Sistema | Ruta |
+| --- | --- |
+| Windows | `%APPDATA%\Gimnasio Mental\datos\` |
+| Ubuntu | `~/.config/Gimnasio Mental/datos/` |
+| Android | almacenamiento privado de la app (entra en la copia de seguridad del sistema) |
+| Navegador | `datos/` junto al proyecto |
+
+Se guarda **solo**, en cada cambio y al cerrar; al abrir, la app lo recupera de ahí.
+`localStorage` es únicamente una caché. **Desinstalar no lo borra.**
+
+Se **rechaza cualquier escritura vacía** sobre un archivo que ya tiene contenido, y se guarda la
+versión anterior en `progreso.anterior.json` antes de cada sobrescritura. Si la app falla, el
+disco no se lleva el fallo por delante. Borrar de verdad exige el botón de borrar historial.
+
+**El progreso no se sincroniza entre dispositivos.** Cada instalación lleva el suyo. Para pasarlo
+de uno a otro: Ajustes → *Exportar todo*, y *Restaurar copia* en el destino.
+
+Si vienes de la versión de navegador de este mismo equipo:
+
+```bash
+npm run migrar
+```
 
 ## Entrenar
 
-Doble clic en **Gimnasio Mental** en el escritorio. Eso es todo: se abre en el navegador y a
-entrenar.
+Doble clic en el icono. Se abre en su propia ventana, sin navegador.
 
-Por dentro el acceso directo llama a `scripts/entrenar.vbs`, que arranca `scripts/launch.mjs`
-sin dejar ventana de consola. Ese script:
+### La versión de navegador sigue funcionando
 
-1. Compara las fechas de `src/` con las de `dist/` y **recompila solo si has tocado algo**
-   (código o vocabulario). El arranque normal es instantáneo.
-2. Levanta un servidor local sin dependencias en `http://127.0.0.1:4123` y abre el navegador.
-3. Si ya estaba en marcha, **reabre la pestaña en vez de levantar un segundo servidor**.
+Sirve para desarrollar sin tener que empaquetar nada:
 
-Hace falta servirlo por HTTP —abrir `dist/index.html` con doble clic no funciona— porque el
-navegador bloquea los módulos ES sobre `file://`. El servidor solo escucha en `127.0.0.1`, así que
-no queda expuesto en la red.
-
-Para detenerlo: `taskkill /IM node.exe /F`, o simplemente reinicia; no consume nada mientras espera.
-
-Si el acceso directo se pierde, se recrea con:
-
-```powershell
-$raiz = "C:\Users\OscarGarcia\Desktop\Entrenamiento mental"
-$s = (New-Object -ComObject WScript.Shell).CreateShortcut("$([Environment]::GetFolderPath('Desktop'))\Gimnasio Mental.lnk")
-$s.TargetPath = "$env:SystemRoot\System32\wscript.exe"; $s.Arguments = """$raiz\scripts\entrenar.vbs"""
-$s.WorkingDirectory = $raiz; $s.IconLocation = "$raiz\assets\gimnasio.ico,0"; $s.Save()
+```bash
+npm run entrenar
 ```
 
-### Desarrollo
+Compara las fechas de `src/` con las de `dist/` y recompila solo si has tocado algo; levanta un
+servidor sin dependencias en `http://127.0.0.1:4123` —solo en local, no queda expuesto en la red—
+y abre el navegador. Si ya estaba en marcha, reabre la pestaña en vez de levantar otro servidor.
+Para detenerlo: `taskkill /IM node.exe /F`.
+
+Hace falta servirlo por HTTP, y por eso mismo la app de escritorio usa un esquema `app://` propio
+en lugar de abrir el archivo: el navegador bloquea los módulos ES sobre `file://`, y la app carga
+los seis diccionarios y el panel de métricas como fragmentos aparte.
+
+## Desarrollo
 
 ```bash
 npm install
 npm run dev        # servidor de desarrollo con recarga en caliente
 npm run build      # compila a dist/
-npm run entrenar   # lo mismo que el acceso directo, desde la terminal
+npm run app        # compila y abre la app de escritorio
+npm run entrenar   # la versión de navegador, con servidor local
 npm run vocab      # recuenta y audita los mazos de vocabulario
-npm run icono      # regenera assets/gimnasio.ico
+npm run icono      # regenera iconos, pantallas de arranque y mipmaps
+npm run migrar     # lleva el progreso del navegador a la app instalada
+npm run movil      # compila y copia la app al proyecto de Android
 ```
+
+Comprobaciones:
+
+```bash
+node scripts/probar-empaquetado.mjs   # rutas del esquema app:// y guardado del progreso
+npx electron scripts/probar-electron.mjs   # arranca la app y comprueba que todo carga
+```
+
+## Generar los instaladores
+
+Los tres se compilan en la nube al publicar una etiqueta:
+
+```bash
+git tag v1.1.0 && git push origin v1.1.0
+```
+
+`.github/workflows/build.yml` produce el `.exe`, el `.deb` y el `.apk`, y los cuelga de una
+*release* de GitHub. El `.deb` necesita `fpm`, que no funciona en Windows, y el `.apk` necesita el
+SDK de Android: por eso se compilan allí y no en el portátil.
+
+En local, y solo para Windows:
+
+```bash
+npm run dist:win
+```
+
+### Firmar el APK
+
+El APK de publicación necesita una clave. Créala tú (pide contraseñas, así que no la genera
+ningún script):
+
+```bash
+keytool -genkeypair -v -keystore gimnasio.keystore -alias gimnasio -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Guárdala fuera del repositorio y **no la pierdas**: sin ella, Google Play no acepta ninguna
+actualización futura de la aplicación. Para compilar en local, crea `keystore.properties` en la
+raíz (ya está en `.gitignore`):
+
+```properties
+storeFile=../gimnasio.keystore
+storePassword=...
+keyAlias=gimnasio
+keyPassword=...
+```
+
+Para la nube, sube estos secretos al repositorio: `ANDROID_KEYSTORE_BASE64` (el almacén en
+base64), `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` y `ANDROID_KEY_PASSWORD`. Sin ellos el
+flujo compila una versión de depuración, que se instala a mano pero no se puede publicar.
 
 ---
 
