@@ -7,3 +7,22 @@ dist-ssr
 
 # progreso del usuario: no debe versionarse
 datos/
+
+# instaladores generados por electron-builder
+release/
+
+# Android: el proyecto sí se versiona (lo necesita la compilacion en la nube),
+# pero no lo que genera Gradle al compilar.
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/capacitor-cordova-android-plugins/
+*.apk
+*.aab
+
+# Firma: la clave y sus contrasenas no entran en el repositorio jamas.
+keystore.properties
+*.keystore
+*.jks

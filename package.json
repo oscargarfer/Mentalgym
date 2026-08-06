@@ -1,27 +1,45 @@
 {
   "name": "gimnasio-mental",
+  "productName": "Gimnasio Mental",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Gimnasio de Atletas Mentales y Alto Rendimiento Cognitivo - velocidad, asociacion y lectura",
   "type": "module",
+  "main": "electron/main.js",
+  "author": "Oscar Garcia",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "entrenar": "node scripts/launch.mjs",
     "vocab": "node scripts/sync-vocab.mjs",
-    "icono": "node scripts/make-icon.mjs"
+    "icono": "node scripts/make-icon.mjs",
+    "app": "vite build && electron .",
+    "electron": "electron .",
+    "migrar": "node scripts/migrar-progreso.mjs",
+    "dist:win": "vite build && electron-builder --win",
+    "dist:linux": "vite build && electron-builder --linux",
+    "movil": "vite build && cap sync android"
   },
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/filesystem": "^8.1.2",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3",
     "lucide-react": "^1.28.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "recharts": "^3.10.1"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/cli": "^8.5.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.0.5",
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.0"
   }

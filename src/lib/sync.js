@@ -1,72 +1,80 @@
 /**
- * Réplica del progreso en disco, contra el servidor local.
+ * Réplica del progreso fuera del navegador.
  *
  * localStorage solo es una caché: vive dentro del navegador, atado a su origen,
  * y desaparece si se limpian los datos de navegación. El progreso de verdad se
- * guarda en `datos/progreso.json`, junto al proyecto, así que sobrevive a cerrar
- * el navegador, a cambiar de navegador y a limpiar la caché.
+ * guarda en un archivo, así que sobrevive a cerrar la aplicación, a cambiar de
+ * navegador y a limpiar la caché.
  *
- * Si el servidor no está (por ejemplo al abrir con `npm run dev`), todo esto
- * falla en silencio y la app sigue funcionando solo con localStorage.
+ * Este módulo decide *qué* y *cuándo* se escribe —agrupa ráfagas de cambios y
+ * descarta lo que no merece la pena—; *dónde* acaba lo resuelve
+ * `persistencia.js`, que elige entre el disco de la app de escritorio, el del
+ * móvil o el servidor local. Si no hay ninguno de los tres, todo esto falla en
+ * silencio y la app sigue funcionando solo con localStorage.
  */
-const API = '/api/estado'
+import { backend } from './persistencia.js'
+
 const RETARDO = 500
 
 let temporizador = null
+let pendiente = null
 let ultimoEnviado = ''
 
 const sobre = (datos) => ({ version: 1, guardado: new Date().toISOString(), datos })
 
-/** Lee el progreso guardado en disco. Devuelve null si no hay servidor o no hay nada. */
+/** Una foto sin ninguna clave nunca es un cambio legítimo: es el navegador fallando. */
+const vacio = (datos) => !datos || typeof datos !== 'object' || !Object.keys(datos).length
+
+/** Lee el progreso guardado. Devuelve null si no hay nada o no se puede leer. */
 export async function cargarEstado() {
   try {
-    const r = await fetch(API, { cache: 'no-store' })
-    if (!r.ok) return null
-    const j = await r.json()
-    if (!j || typeof j !== 'object' || !j.datos) return null
-    return j.datos
+    return await backend.leer()
   } catch {
     return null
   }
 }
 
-async function enviar(cuerpo) {
+/** Escribe ya lo que hubiera en cola, sin esperar al temporizador. */
+export async function vaciar() {
+  clearTimeout(temporizador)
+  temporizador = null
+  const enCola = pendiente
+  pendiente = null
+  if (!enCola) return
   try {
-    await fetch(API, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: cuerpo,
-    })
-    ultimoEnviado = cuerpo
+    await backend.escribir(enCola.sobre)
+    ultimoEnviado = enCola.huella
   } catch {
-    /* sin servidor: queda solo la copia de localStorage */
+    /* sin destino donde escribir: queda la copia de localStorage */
   }
 }
 
-/** Una foto sin ninguna clave nunca es un cambio legítimo: es el navegador fallando. */
-const vacio = (datos) => !datos || typeof datos !== 'object' || !Object.keys(datos).length
-
-/** Guarda a disco, agrupando ráfagas de cambios en una sola escritura. */
+/** Guarda, agrupando ráfagas de cambios en una sola escritura. */
 export function guardarEstado(datos) {
   if (vacio(datos)) return
-  const cuerpo = JSON.stringify(sobre(datos))
+  // La huella deja fuera la marca de tiempo del envoltorio: si no, dos fotos
+  // idénticas parecerían distintas y se escribirían las dos.
+  pendiente = { sobre: sobre(datos), huella: JSON.stringify(datos) }
   clearTimeout(temporizador)
-  temporizador = setTimeout(() => enviar(cuerpo), RETARDO)
+  temporizador = setTimeout(vaciar, RETARDO)
 }
 
-/**
- * Guardado de última hora al cerrar la pestaña. `sendBeacon` sigue vivo aunque
- * la página ya se esté descargando, cosa que un fetch normal no garantiza.
- */
+/** Guardado de última hora al cerrar la ventana o la pestaña. */
 export function guardarAlSalir(datos) {
   if (vacio(datos)) return
-  const cuerpo = JSON.stringify(sobre(datos))
-  if (cuerpo === ultimoEnviado) return
+  const huella = JSON.stringify(datos)
+  if (huella === ultimoEnviado) return
   clearTimeout(temporizador)
+  temporizador = null
+  pendiente = null
   try {
-    const blob = new Blob([cuerpo], { type: 'application/json' })
-    if (!navigator.sendBeacon?.(API, blob)) enviar(cuerpo)
+    backend.salir(sobre(datos))
+    ultimoEnviado = huella
   } catch {
     /* noop */
   }
 }
+
+// En la app de escritorio el cierre no se da por bueno hasta que esto responde:
+// el proceso principal pide el volcado y espera a que confirme.
+backend.registrarVolcado?.(vaciar)

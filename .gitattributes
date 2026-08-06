@@ -1,0 +1,16 @@
+# El repositorio guarda todo en LF. Sin esto, los ficheros escritos en Windows
+# llegarian con CRLF a los runners de Ubuntu, donde un script de shell con
+# retorno de carro falla con un error que no dice nada util.
+* text=auto eol=lf
+
+# Binarios: que git no intente normalizar nada dentro.
+*.ico   binary
+*.png   binary
+*.jpg   binary
+*.woff2 binary
+*.keystore binary
+*.jks   binary
+
+# Gradle trae su propio lanzador; el .bat es de Windows y el otro de Unix.
+gradlew      text eol=lf
+gradlew.bat  text eol=crlf
