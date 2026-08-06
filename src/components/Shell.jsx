@@ -1,7 +1,9 @@
 import {
   LayoutDashboard, Zap, Layers, Eye, Settings2, BookOpen, Activity, CalendarClock, Hash, Landmark,
 } from 'lucide-react'
+import { useEffect } from 'react'
 import { useApp } from '../state/AppContext.jsx'
+import { useEvitarSuspension } from '../lib/tactil.js'
 import { cx, Kbd } from './ui.jsx'
 
 export const NAV = [
@@ -17,7 +19,16 @@ export const NAV = [
 ]
 
 export default function Shell({ view, setView, children }) {
-  const { deck, locked, sessions, resumenRepaso } = useApp()
+  const { deck, locked, sessions, resumenRepaso, settings } = useApp()
+
+  // `locked` ya lo activan los seis módulos mientras se entrena, así que sirve
+  // tal cual para no dejar que la pantalla se apague en mitad de una carga.
+  useEvitarSuspension(locked)
+
+  // El modo táctil se puede forzar desde Ajustes para probarlo con ratón.
+  useEffect(() => {
+    document.documentElement.dataset.tactil = settings.tactil || 'auto'
+  }, [settings.tactil])
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-ink-950">

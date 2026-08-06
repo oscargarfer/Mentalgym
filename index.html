@@ -2,8 +2,17 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover: la botonera del ejercicio se apoya en el borde
+         inferior y necesita saber dónde acaba la pantalla en un móvil con
+         muesca. No se desactiva el zoom con los dedos: el doble toque ya lo
+         corta `touch-action` en index.css, y quitarle el zoom a quien lo
+         necesita para leer no arregla nada. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#04060c" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Gimnasio Mental" />
     <title>GIMNASIO MENTAL // Alto Rendimiento Cognitivo</title>
     <link
       rel="icon"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { usePunteroGrueso, teclaDe, pulsar } from '../lib/tactil.js'
 
 export const cx = (...c) => c.filter(Boolean).join(' ')
 
@@ -10,6 +11,7 @@ export function Kbd({ children, tone = 'cy', className = '' }) {
     gr: 'border-gr/40 text-gr bg-gr/5',
     rd: 'border-rd/40 text-rd bg-rd/5',
     am: 'border-am/40 text-am bg-am/5',
+    vi: 'border-vi/40 text-vi bg-vi/5',
     mute: 'border-line text-mute bg-white/2',
   }
   return (
@@ -25,7 +27,45 @@ export function Kbd({ children, tone = 'cy', className = '' }) {
   )
 }
 
+/**
+ * Atajo de teclado de la fase actual.
+ *
+ * Con teclado se lee; con el dedo se pulsa. Como cada módulo ya declara aquí lo
+ * que hace cada tecla en cada fase, convertir esto en botón da los controles
+ * táctiles de los seis ejercicios sin tocar la lógica de ninguno: el botón emite
+ * la misma pulsación que el teclado (ver `lib/tactil.js`).
+ */
 export function KeyHint({ keys = [], label, tone = 'mute' }) {
+  const tactil = usePunteroGrueso()
+  const tecla = teclaDe(keys[0])
+
+  if (tactil && tecla) {
+    const tonos = {
+      cy: 'border-cy/50 bg-cy/10 text-cy',
+      gr: 'border-gr/50 bg-gr/10 text-gr',
+      rd: 'border-rd/50 bg-rd/10 text-rd',
+      am: 'border-am/50 bg-am/10 text-am',
+      vi: 'border-vi/50 bg-vi/10 text-vi',
+      mute: 'border-line bg-white/4 text-mute',
+    }
+    return (
+      <button
+        type="button"
+        // Sin esto, tocar el botón le quita el foco al campo de respuesta y el
+        // teclado del móvil se cierra y se vuelve a abrir en cada pulsación.
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => pulsar(tecla)}
+        className={cx(
+          'inline-flex min-h-[46px] flex-1 items-center justify-center rounded-xl border px-4 text-center text-[13px] font-medium leading-tight transition-transform active:scale-[0.97]',
+          tone === 'mute' ? 'max-w-[34%] grow-0' : 'grow',
+          tonos[tone] || tonos.mute,
+        )}
+      >
+        {label}
+      </button>
+    )
+  }
+
   return (
     <span className="inline-flex items-center gap-1.5 text-[11px] text-mute">
       {keys.map((k) => (
@@ -242,9 +282,22 @@ export function Countdown({ from = 3, onDone, label = 'PREPARADO' }) {
 
 /* ---------------- Barra de estado inferior ---------------- */
 
+/**
+ * Pie de la pantalla del ejercicio. Con teclado es una leyenda de atajos; con el
+ * dedo se convierte en la botonera de la fase, al alcance del pulgar y por
+ * encima de la barra de gestos del móvil.
+ */
 export function HintBar({ children }) {
+  const tactil = usePunteroGrueso()
   return (
-    <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-line-soft bg-ink-950/70 px-6 py-3 backdrop-blur">
+    <div
+      className={cx(
+        'flex flex-wrap items-center justify-center border-t border-line-soft bg-ink-950/70 backdrop-blur',
+        tactil
+          ? 'gap-2 px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]'
+          : 'gap-x-6 gap-y-2 px-6 py-3',
+      )}
+    >
       {children}
     </div>
   )

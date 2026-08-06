@@ -460,6 +460,9 @@ export default function Massive() {
           >
             {prompt}
           </div>
+          {/* autoCorrect y autoCapitalize apagados: en el movil el corrector
+              reescribe la respuesta antes de que llegue a evaluarse, convierte
+              un acierto en fallo y con ello falsea el VRN. */}
           <input
             ref={inputRef}
             value={input}
@@ -468,6 +471,9 @@ export default function Massive() {
             placeholder="respuesta..."
             autoComplete="off"
             spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+            enterKeyHint="done"
             className={cx(
               'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
               feedback === 'ok'

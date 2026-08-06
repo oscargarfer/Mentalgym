@@ -14,6 +14,8 @@ const DEFAULT_SETTINGS = {
   showLoadTimer: true,
   intervalos: INTERVALOS,
   topeRepasoDiario: 60,
+  // 'auto' sigue al dispositivo; 'si' y 'no' fuerzan los controles táctiles.
+  tactil: 'auto',
 }
 
 const AppCtx = createContext(null)

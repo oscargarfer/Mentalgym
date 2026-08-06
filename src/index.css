@@ -34,6 +34,12 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
+    /* En el movil: sin zoom por doble toque (media pantalla del ejercicio es
+       texto grande que invita a tocarlo) y sin "tirar para recargar", que en
+       mitad de una carga de cien palabras se lleva el bloque por delante. */
+    touch-action: manipulation;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   input,

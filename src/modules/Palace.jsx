@@ -347,6 +347,9 @@ export default function Palace() {
             placeholder="¿qué colocaste aquí?"
             autoComplete="off"
             spellCheck={false}
+            autoCorrect="off"
+            autoCapitalize="off"
+            enterKeyHint="done"
             className={cx(
               'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
               feedback === 'ok' ? 'border-gr/70 glow-gr'

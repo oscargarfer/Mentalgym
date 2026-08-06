@@ -7,7 +7,7 @@ import { useApp } from '../state/AppContext.jsx'
 import { parseDeck, downloadJSON } from '../lib/utils.js'
 import { INTERVALOS } from '../lib/srs.js'
 import { palabraACasilla } from '../data/pegs.js'
-import { Panel, SectionTitle, Btn, Badge, Toggle, NumberField, cx } from '../components/ui.jsx'
+import { Panel, SectionTitle, Btn, Badge, Toggle, NumberField, Choice, cx } from '../components/ui.jsx'
 
 const SAMPLE = `[
   { "w": "hello", "m": "hola" },
@@ -226,6 +226,25 @@ export default function Settings() {
             Ocultar el cronómetro reduce la ansiedad de rendimiento; el tiempo se sigue midiendo
             igual.
           </p>
+
+          <div className="mt-4 border-t border-line-soft pt-4">
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
+              Controles táctiles
+            </div>
+            <Choice
+              options={[
+                { value: 'auto', label: 'Automático' },
+                { value: 'si', label: 'Siempre' },
+                { value: 'no', label: 'Nunca' },
+              ]}
+              value={settings.tactil || 'auto'}
+              onChange={(v) => update({ tactil: v })}
+            />
+            <p className="mt-2 text-xs text-mute">
+              En automático aparecen solos en móvil y tableta. Los atajos de teclado siguen
+              funcionando en los tres casos: los botones pulsan esas mismas teclas.
+            </p>
+          </div>
         </Panel>
 
         {/* ---- Repaso espaciado ---- */}
