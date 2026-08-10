@@ -1,8 +1,32 @@
 {
-  "de": 2139,
-  "en": 2392,
-  "fr": 2125,
-  "ja": 2005,
-  "ru": 2086,
-  "zh": 2102
+  "de": {
+    "total": 2040,
+    "nucleo": 611,
+    "comun": 1424
+  },
+  "en": {
+    "total": 2242,
+    "nucleo": 632,
+    "comun": 1581
+  },
+  "fr": {
+    "total": 2046,
+    "nucleo": 606,
+    "comun": 1431
+  },
+  "ja": {
+    "total": 1909,
+    "nucleo": 571,
+    "comun": 1312
+  },
+  "ru": {
+    "total": 1994,
+    "nucleo": 593,
+    "comun": 1393
+  },
+  "zh": {
+    "total": 2004,
+    "nucleo": 606,
+    "comun": 1400
+  }
 }

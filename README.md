@@ -257,24 +257,33 @@ Cada idioma vive en su propio `src/data/vocab/<id>.json` y **se importa solo al 
 que el mazo puede crecer a miles de palabras sin tocar el bundle inicial. Formato por fila:
 `["palabra", "significado"]` o `["palabra", "significado", "lectura"]`.
 
-Los mazos se construyeron por tramos de frecuencia hasta superar las 2000 palabras. **Completo**:
+### Niveles, y qué significan de verdad
 
-| Idioma | Palabras |
-|---|---:|
-| Inglés | 2392 |
-| Alemán | 2139 |
-| Francés | 2125 |
-| Chino | 2102 |
-| Ruso | 2086 |
-| Japonés | 2005 |
-| **Total** | **12 849** |
+Los mazos se construyeron en tres tramos, y **no tienen la misma naturaleza**. Conviene decirlo
+con precisión, porque «las 2000 palabras más usadas» sería una exageración:
 
-El tramo 1 cubre el núcleo funcional: verbos, adjetivos, conectores, marcadores de tiempo y los
-campos semánticos de mayor uso (cuerpo, familia, comida, ciudad, naturaleza, oficios, materia).
-El tramo 2 añade vocabulario de dominio: trabajo, estudio, sociedad, derecho, salud, tecnología,
-viajes, emociones matizadas y ~200 verbos más por idioma. El tramo 3 cierra con la cola de menor
-frecuencia pero aún útil: verbos abstractos, adjetivos de matiz y sustantivos concretos de
-naturaleza, oficios, cuerpo, materiales y objetos.
+| Nivel | Inglés | Alemán | Francés | Chino | Ruso | Japonés | Qué es |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Núcleo | 632 | 611 | 606 | 606 | 593 | 571 | Frecuencia real, ordenado por uso |
+| Común | 1581 | 1424 | 1431 | 1400 | 1393 | 1312 | Vocabulario corriente (A2-B1) |
+| Completo | 2242 | 2040 | 2046 | 2004 | 1994 | 1909 | Añade ampliación temática |
+
+- **El núcleo sí está ordenado por frecuencia real** (*to be, to have, to do, to say, to go…*).
+- **El común** es vocabulario de uso corriente, recogido por campos semánticos y no por ranking.
+- **El completo** añade una ampliación de verbos abstractos, adjetivos de matiz y sustantivos
+  concretos. Es material útil, pero ya no es «lo más usado».
+
+Y un matiz importante: los seis mazos comparten en torno al **90 % de los conceptos**, porque se
+construyeron traduciendo una misma lista. Eso es bueno para saltar de idioma a idioma con el
+mismo mapa mental, pero significa que **no son la lista de frecuencia propia de cada lengua**;
+la desviación es mayor en chino y japonés.
+
+El nivel se elige en Ajustes y por defecto es **Común**. Empezar por el núcleo es lo que hace que
+memorices lo que de verdad vas a usar: el reparto es aleatorio dentro del nivel, así que sin este
+corte una palabra de la cola salía tan a menudo como *hacer*.
+
+`npm run vocab` recalcula las fronteras de cada nivel y audita duplicados y glosas ambiguas.
+`scripts/poda.json` documenta, con su motivo, cada concepto retirado por no ser de uso corriente.
 
 En el test inverso (ES → idioma) se acepta tanto la grafía original como su lectura: vale `房子` o
 `fangzi`, `дом` o `dom`, `かがみ` o `kagami`.

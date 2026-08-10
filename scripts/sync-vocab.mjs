@@ -7,7 +7,7 @@
  * - Avisa de duplicados, filas mal formadas y traducciones vacias.
  * Ejecutalo despues de ampliar cualquier idioma.
  */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { vocabKey, vocabStem } from './vocab-key.mjs'
@@ -55,9 +55,25 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
   // si son conceptos distintos (no sinonimos) conviene matizar la glosa.
   const ambiguous = [...byMeaning.entries()].filter(([, ws]) => ws.length > 1)
 
-  counts[id] = rows.length
+  // Fronteras de nivel. El mazo conserva el orden en que se construyo —nucleo
+  // de frecuencia, luego vocabulario comun, luego ampliacion—, asi que un nivel
+  // es un corte por posicion y no hace falta marcar cada entrada.
+  const enTramo = (t) => {
+    const f = join(here, 'batches', `${id}-t${t}.json`)
+    if (!existsSync(f)) return new Set()
+    return new Set(JSON.parse(readFileSync(f, 'utf8')).map((r) => r[0]))
+  }
+  const t2 = enTramo(2)
+  const t3 = enTramo(3)
+  const nucleo = rows.filter((r) => !t2.has(r[0]) && !t3.has(r[0])).length
+  const comun = rows.filter((r) => !t3.has(r[0])).length
+
+  counts[id] = { total: rows.length, nucleo, comun }
   const flag = dupes.length || broken.length ? 'X' : 'OK'
-  console.log(`[${flag}] ${id.padEnd(3)} ${String(rows.length).padStart(5)} entradas`)
+  console.log(
+    `[${flag}] ${id.padEnd(3)} ${String(rows.length).padStart(5)} entradas` +
+      `  ·  nucleo ${nucleo} · comun ${comun} · completo ${rows.length}`,
+  )
   if (broken.length) {
     problems += broken.length
     console.log(`      ${broken.length} filas invalidas:`)

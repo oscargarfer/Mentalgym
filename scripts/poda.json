@@ -1,0 +1,69 @@
+{
+  "_": [
+    "Conceptos retirados del tramo 3 y el motivo. La clave es la glosa española",
+    "(primera acepción, normalizada), porque los seis mazos son traducciones de",
+    "una misma lista de conceptos: retirar el concepto lo retira de los seis a la",
+    "vez y los mantiene alineados.",
+    "",
+    "La poda solo se aplica a entradas del tramo 3. El tramo 1 es frecuencia real",
+    "y el 2 es vocabulario común: no se tocan.",
+    "",
+    "Criterios, en orden de peso:",
+    "  raro-es   la glosa española no la usa un hispanohablante corriente",
+    "  raro      la palabra está fuera del uso cotidiano en su idioma",
+    "  ambiguo    tiene dos significados frecuentes y no se sabe cuál se pide",
+    "  duplicado  varias palabras comparten glosa; se conserva la primera",
+    "  redundante otra entrada ya cubre el concepto con mejor palabra",
+    "  frase      la glosa es una perífrasis, no una palabra",
+    "  descolocado se coló fuera de su sitio en la lista"
+  ],
+
+  "raro-es": [
+    "asir", "mascullar", "consagrar", "realzar", "atemorizar", "resplandecer",
+    "afligirse", "indagar", "manufacturar", "cobijar", "contrabandear",
+    "regocijarse", "bosquejar", "endeble", "sombrío", "misericordioso", "mero",
+    "hondo", "esbelto", "rancio", "erguido", "vigoroso", "vivaz", "linde",
+    "sino", "marisma", "clemencia", "bruma", "yermo", "celo", "ocioso",
+    "apresurado", "próspero", "peldaño", "vid", "travesía", "calidez",
+    "criatura", "arrecife", "reinado", "cresta", "alquitrán", "ubre", "recinto"
+  ],
+
+  "raro": [
+    "cesar", "atormentar", "habitar", "demorarse",
+    "guardar luto", "oprimir", "esbozar", "suplicar", "zambullirse",
+    "retratar", "predicar", "preceder", "prevalecer", "proclamar", "incitar",
+    "comentar", "deambular", "calmar", "tambalearse", "convocar", "socavar",
+    "resistir", "sobresaltar", "arado", "profeta", "riña", "asedio",
+    "escuadrón", "puntada", "ramita", "arbusto", "vara", "golfo", "seto",
+    "mineral", "madera de construcción", "toga", "azotar", "dar tumbos",
+    "contener"
+  ],
+
+  "ambiguo": [
+    "satisfecho", "entusiasta", "aficionado", "grave", "asqueroso", "polar",
+    "civil", "finca", "encía", "cámara", "compuesto", "dominio", "cubierta",
+    "leño", "alumno", "derrame", "plan", "alcance", "navío", "reino, ámbito",
+    "colmillo"
+  ],
+
+  "duplicado": [
+    "pudrirse", "prosperar", "espléndido", "brote", "tallo"
+  ],
+
+  "redundante": [
+    "utilizar", "amontonar", "húmedo al tacto", "vistazo", "prisa"
+  ],
+
+  "frase": [
+    "aguardar", "toparse con", "calcular a ojo", "gobernar el rumbo",
+    "empujar con fuerza", "cerrar de golpe", "rendir", "mantener, confirmar",
+    "dolor sordo", "lista de deseos", "plumero", "esmalte de uñas",
+    "vida útil", "perro pastor", "muela del juicio", "hermano o hermana",
+    "carne del cuerpo", "carga pesada", "oficio artesanal", "grueso",
+    "mezcla armónica", "estantería metálica", "complejo turístico",
+    "factura comercial", "lapso", "hilo de lana", "extremidad", "bulto",
+    "legado", "indirecta", "mercancías", "agarre", "deleite"
+  ],
+
+  "descolocado": ["arsenal"]
+}

@@ -229,6 +229,28 @@ export default function Settings() {
 
           <div className="mt-4 border-t border-line-soft pt-4">
             <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
+              Nivel de vocabulario
+            </div>
+            <Choice
+              options={[
+                { value: 'nucleo', label: `Núcleo · ${deck.nucleo ?? '—'}` },
+                { value: 'comun', label: `Común · ${deck.comun ?? '—'}` },
+                { value: 'completo', label: `Completo · ${deck.total ?? deck.count}` },
+              ]}
+              value={settings.nivel || 'comun'}
+              onChange={(v) => update({ nivel: v })}
+            />
+            <p className="mt-2 text-xs text-mute">
+              El mazo está ordenado por frecuencia: primero las palabras que
+              sostienen el idioma, después el vocabulario común y al final la
+              ampliación. Empezar por el <b className="text-slate-300">núcleo</b> es
+              lo que hace que memorices lo que de verdad vas a usar. Los mazos
+              propios entran enteros, sea cual sea el nivel.
+            </p>
+          </div>
+
+          <div className="mt-4 border-t border-line-soft pt-4">
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
               Controles táctiles
             </div>
             <Choice

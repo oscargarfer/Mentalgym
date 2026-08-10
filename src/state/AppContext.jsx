@@ -16,6 +16,15 @@ const DEFAULT_SETTINGS = {
   topeRepasoDiario: 60,
   // 'auto' sigue al dispositivo; 'si' y 'no' fuerzan los controles táctiles.
   tactil: 'auto',
+  // Hasta dónde llega el vocabulario que entra en los ejercicios.
+  nivel: 'comun',
+}
+
+/** Cuántas palabras del mazo entran en cada nivel. */
+const corte = (meta, nivel) => {
+  if (nivel === 'nucleo') return meta.nucleo ?? meta.count
+  if (nivel === 'comun') return meta.comun ?? meta.count
+  return meta.count
 }
 
 const AppCtx = createContext(null)
@@ -133,9 +142,13 @@ export function AppProvider({ children }) {
         name: l.name,
         tag: l.tag,
         accent: l.accent,
-        count: COUNTS[l.id] ?? 0,
+        count: COUNTS[l.id]?.total ?? 0,
+        nucleo: COUNTS[l.id]?.nucleo,
+        comun: COUNTS[l.id]?.comun,
         custom: false,
       })),
+      // Un mazo propio no viene por tramos de frecuencia: entra entero sea cual
+      // sea el nivel.
       ...decks.map((d) => ({ ...d, count: d.entries.length, custom: true })),
     ],
     [decks],
@@ -169,10 +182,20 @@ export function AppProvider({ children }) {
     }
   }, [meta.id, decks])
 
-  const deck = useMemo(
-    () => ({ ...meta, entries, loading: deckLoading }),
-    [meta, entries, deckLoading],
-  )
+  /**
+   * Mazo activo, recortado al nivel elegido.
+   *
+   * El mazo conserva el orden en que se construyó: primero el núcleo de
+   * frecuencia real, después el vocabulario común y al final la ampliación. Un
+   * nivel es por tanto un corte por posición. Sin esto, en la primera sesión
+   * salía con la misma probabilidad "hacer" que una palabra que no se usa casi
+   * nunca, y el reparto aleatorio hacía el resto.
+   */
+  const deck = useMemo(() => {
+    const tope = corte(meta, settings.nivel)
+    const usables = meta.custom ? entries : entries.slice(0, tope)
+    return { ...meta, entries: usables, count: usables.length, total: meta.count, loading: deckLoading }
+  }, [meta, entries, deckLoading, settings.nivel])
 
   const update = useCallback((patch) => setSettings((s) => ({ ...s, ...patch })), [])
 
