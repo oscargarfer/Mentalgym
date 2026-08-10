@@ -47,6 +47,7 @@ const RECETA = [
 const EJERCICIOS = [
   {
     tecla: '2',
+    cap: 'aso',
     nombre: 'Calentamiento de asociación flash',
     icono: Zap,
     color: 'text-vi',
@@ -74,6 +75,7 @@ const EJERCICIOS = [
   },
   {
     tecla: '3',
+    cap: 'aso',
     nombre: 'Memorización masiva',
     icono: Layers,
     color: 'text-cy',
@@ -104,6 +106,7 @@ const EJERCICIOS = [
   },
   {
     tecla: '4',
+    cap: 'ret',
     nombre: 'Repaso espaciado',
     icono: CalendarClock,
     color: 'text-gr',
@@ -128,6 +131,7 @@ const EJERCICIOS = [
   },
   {
     tecla: '5',
+    cap: 'pro',
     nombre: 'Taquistoscopio (RSVP)',
     icono: Eye,
     color: 'text-am',
@@ -152,6 +156,7 @@ const EJERCICIOS = [
   },
   {
     tecla: '6',
+    cap: 'aso',
     nombre: 'Números y casillero',
     icono: Hash,
     color: 'text-vi',
@@ -181,6 +186,7 @@ const EJERCICIOS = [
   },
   {
     tecla: '7',
+    cap: 'ord',
     nombre: 'Palacio de la memoria',
     icono: Landmark,
     color: 'text-vi',
@@ -261,7 +267,7 @@ const PROTOCOL = [
 
 const PESTANAS = [
   { id: 'inicio', label: 'Empieza aquí', icon: Rocket },
-  { id: 'ejercicios', label: 'Los 6 ejercicios', icon: ListChecks },
+  { id: 'ejercicios', label: 'Las 4 capacidades', icon: ListChecks },
   { id: 'protocolo', label: 'Sesión diaria', icon: BookOpen },
   { id: 'teclas', label: 'Teclas', icon: Keyboard },
 ]
@@ -399,24 +405,91 @@ function Inicio() {
 
 /* ---------------- Los ejercicios ---------------- */
 
+/**
+ * El marco de la aplicación. No se entrenan seis ejercicios sueltos: se
+ * entrenan cuatro facultades, y cada una tiene sus caminos.
+ *
+ * Cada capacidad lleva lo que dice la evidencia, no lo que vendería mejor. La
+ * mnemotecnia tiene respaldo serio; la lectura rápida, mucho menos, y eso hay
+ * que decirlo en la propia guía y no en la letra pequeña.
+ */
+const MARCO = [
+  {
+    id: 'aso',
+    n: '01',
+    nombre: 'Asociar',
+    tinta: 'text-aso',
+    fondo: 'bg-aso',
+    que: 'Convertir algo abstracto en una imagen que puedas ver.',
+    porque:
+      'Es la capacidad madre: sin imagen no hay nada que guardar. Un dato suelto se evapora en segundos; metido en una escena absurda resiste años. Todo lo demás se apoya aquí.',
+    evidencia:
+      'Es la parte con mejor respaldo. Seis semanas de entrenamiento mnemotécnico reorganizan la red funcional del cerebro hacia el patrón de los atletas de memoria, y la mejora se sigue midiendo cuatro meses después.',
+  },
+  {
+    id: 'ord',
+    n: '02',
+    nombre: 'Ordenar',
+    tinta: 'text-ord',
+    fondo: 'bg-ord',
+    que: 'Evocar en secuencia, no en montón.',
+    porque:
+      'Recordar veinte cosas sueltas y recordarlas en orden son destrezas distintas. La segunda es más dura y es la que permite discursos, listas y procedimientos enteros sin apuntar nada.',
+    evidencia:
+      'El palacio de la memoria es justo la técnica que se midió en los estudios de arriba: no es folclore, es el método que usan quienes compiten.',
+  },
+  {
+    id: 'ret',
+    n: '03',
+    nombre: 'Retener',
+    tinta: 'text-ret',
+    fondo: 'bg-ret',
+    que: 'Que lo memorizado siga ahí dentro de un mes.',
+    porque:
+      'Acertar treinta segundos después no prueba nada. Sin repaso, todo lo cargado se evapora, y la velocidad de carga se vuelve un número vacío.',
+    evidencia:
+      'De diez técnicas de estudio evaluadas sobre 242 estudios, solo dos salieron con utilidad alta: recuperar de memoria y espaciar los repasos. Esta capacidad son las dos a la vez.',
+  },
+  {
+    id: 'pro',
+    n: '04',
+    nombre: 'Procesar',
+    tinta: 'text-pro',
+    fondo: 'bg-pro',
+    que: 'Reconocer antes lo que ya conoces.',
+    porque:
+      'Cuanto menos tarda tu vista en identificar una palabra, más capacidad te queda libre para lo que importa: entenderla y asociarla.',
+    evidencia:
+      'Aquí conviene ser honesto: la investigación sobre lectura rápida es tozuda. Existe un intercambio real entre velocidad y comprensión, y presentar palabra a palabra impide volver atrás, que es justo lo que hace falta para entender. Esto entrena el reconocimiento visual y quita el hábito de subvocalizar; no te va a hacer leer el triple entendiendo igual, y quien te diga lo contrario te está vendiendo algo.',
+  },
+]
+
 function Ejercicios() {
   return (
-    <div className="space-y-4">
-      {EJERCICIOS.map((e) => (
+    <div className="space-y-8">
+      {MARCO.map((c) => (
+        <section key={c.id}>
+          <header className="border-t-2 border-ink pt-3">
+            <div className="flex items-baseline gap-2.5">
+              <span className="num text-[11px] text-ink-3">CAPACIDAD {c.n}</span>
+              <span className={cx('inline-block h-[9px] w-[9px]', c.fondo)} />
+            </div>
+            <h3 className="mt-1 font-serif text-[26px] font-semibold leading-none tracking-[-0.015em] text-ink">
+              {c.nombre}
+            </h3>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink">{c.que}</p>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-ink-2">{c.porque}</p>
+            <p className="mt-2.5 border-l-2 border-rule pl-3 text-[12.5px] leading-relaxed text-ink-3">
+              {c.evidencia}
+            </p>
+          </header>
+
+          <div className="mt-4 space-y-4">
+      {EJERCICIOS.filter((e) => e.cap === c.id).map((e) => (
         <Panel key={e.tecla}>
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-white/3">
-              <e.icono size={18} className={e.color} />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <Kbd>{e.tecla}</Kbd>
-                <span className="font-mono text-sm font-bold text-ink">{e.nombre}</span>
-              </div>
-              <div className={cx('mt-0.5 font-mono text-[10px] font-bold tracking-[0.18em]', e.color)}>
-                ENTRENA · {e.capacidad}
-              </div>
-            </div>
+          <div className="mb-4 flex flex-wrap items-baseline gap-2.5">
+            <Kbd>{e.tecla}</Kbd>
+            <span className="font-serif text-[17px] font-semibold text-ink">{e.nombre}</span>
           </div>
 
           <p className="text-[13px] leading-relaxed text-ink-2">{e.queEs}</p>
@@ -453,37 +526,40 @@ function Ejercicios() {
           )}
 
           {e.ejemplo && (
-            <div className="mt-4 rounded-xl border border-cy/25 bg-cy/4 p-3">
-              <p className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-cy">
+            <div className="mt-4 border-l-2 border-aso bg-surface-2 p-3">
+              <p className="rotulo mb-1.5 flex items-center gap-1.5">
                 <Lightbulb size={11} /> Ejemplo · {e.ejemplo.par}
               </p>
               <p className="text-[13px] leading-relaxed text-ink-2">{e.ejemplo.imagen}</p>
             </div>
           )}
 
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            <div className="rounded-xl border border-line-soft p-3">
-              <p className="mb-1 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="border-t border-rule pt-2.5">
+              <p className="rotulo mb-1.5 flex items-center gap-1.5">
                 <Gauge size={11} /> Qué se mide
               </p>
-              <p className="font-mono text-xs text-ink">{e.metrica}</p>
-              <p className="mt-2 text-xs leading-relaxed text-mute">{e.objetivo}</p>
+              <p className="num text-[13px] text-ink">{e.metrica}</p>
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-3">{e.objetivo}</p>
             </div>
-            <div className="rounded-xl border border-rd/25 bg-rd/4 p-3">
-              <p className="mb-1 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-rd">
+            <div className="border-t-2 border-pro pt-2.5">
+              <p className="rotulo mb-1.5 flex items-center gap-1.5">
                 <TriangleAlert size={11} /> Error típico
               </p>
-              <p className="text-xs leading-relaxed text-ink-2">{e.error}</p>
+              <p className="text-[12.5px] leading-relaxed text-ink-2">{e.error}</p>
             </div>
           </div>
 
           {e.nota && (
-            <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-mute">
-              <Play size={11} className="mt-0.5 shrink-0 text-cy" />
+            <p className="mt-3 flex items-start gap-2 text-[12.5px] leading-relaxed text-ink-3">
+              <Play size={11} className="mt-0.5 shrink-0" />
               {e.nota}
             </p>
           )}
         </Panel>
+      ))}
+          </div>
+        </section>
       ))}
     </div>
   )
