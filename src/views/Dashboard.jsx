@@ -11,7 +11,7 @@ import { useApp } from '../state/AppContext.jsx'
 import { fmtDate, fmtDateTime, fmtClock, round, mean, downloadJSON } from '../lib/utils.js'
 import { Panel, Stat, SectionTitle, Badge, Btn, EmptyState, cx } from '../components/ui.jsx'
 
-const AXIS = { stroke: '#33456b', fontSize: 10, fontFamily: 'monospace' }
+const AXIS = { stroke: '#9a958b', fontSize: 10, fontFamily: 'monospace' }
 
 function ChartTip({ active, payload, label, unit, name }) {
   if (!active || !payload?.length) return null
@@ -332,22 +332,22 @@ export default function Dashboard() {
                     <AreaChart data={retencionData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
                       <defs>
                         <linearGradient id="gRet" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#26ff9c" stopOpacity={0.45} />
-                          <stop offset="100%" stopColor="#26ff9c" stopOpacity={0} />
+                          <stop offset="0%" stopColor="#067a4f" stopOpacity={0.45} />
+                          <stop offset="100%" stopColor="#067a4f" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid stroke="#16223a" strokeDasharray="3 6" vertical={false} />
+                      <CartesianGrid stroke="#dad7d0" strokeDasharray="3 6" vertical={false} />
                       <XAxis dataKey="x" {...AXIS} tickLine={false} axisLine={false} />
                       <YAxis {...AXIS} tickLine={false} axisLine={false} width={44} domain={[0, 100]} />
-                      <Tooltip content={<ChartTip unit="%" name="Retención" />} cursor={{ stroke: '#26ff9c', strokeOpacity: 0.25 }} />
-                      <ReferenceLine y={80} stroke="#00e5ff" strokeDasharray="4 4" strokeOpacity={0.5} />
+                      <Tooltip content={<ChartTip unit="%" name="Retención" />} cursor={{ stroke: '#067a4f', strokeOpacity: 0.25 }} />
+                      <ReferenceLine y={80} stroke="#8a5a12" strokeDasharray="4 4" strokeOpacity={0.5} />
                       <Area
                         type="monotone"
                         dataKey="ret"
-                        stroke="#26ff9c"
+                        stroke="#067a4f"
                         strokeWidth={2}
                         fill="url(#gRet)"
-                        dot={{ r: 2.5, fill: '#26ff9c', strokeWidth: 0 }}
+                        dot={{ r: 2.5, fill: '#067a4f', strokeWidth: 0 }}
                         activeDot={{ r: 5 }}
                       />
                     </AreaChart>
@@ -398,18 +398,18 @@ export default function Dashboard() {
                     <AreaChart data={vrnData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
                       <defs>
                         <linearGradient id="gVrn" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#00e5ff" stopOpacity={0.45} />
-                          <stop offset="100%" stopColor="#00e5ff" stopOpacity={0} />
+                          <stop offset="0%" stopColor="#8a5a12" stopOpacity={0.45} />
+                          <stop offset="100%" stopColor="#8a5a12" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid stroke="#16223a" strokeDasharray="3 6" vertical={false} />
+                      <CartesianGrid stroke="#dad7d0" strokeDasharray="3 6" vertical={false} />
                       <XAxis dataKey="x" {...AXIS} tickLine={false} axisLine={false} />
                       <YAxis {...AXIS} tickLine={false} axisLine={false} width={44} />
-                      <Tooltip content={<ChartTip unit="pal/min" name="VRN" />} cursor={{ stroke: '#00e5ff', strokeOpacity: 0.25 }} />
+                      <Tooltip content={<ChartTip unit="pal/min" name="VRN" />} cursor={{ stroke: '#8a5a12', strokeOpacity: 0.25 }} />
                       {kpi.bestVrn != null && (
                         <ReferenceLine
                           y={kpi.bestVrn}
-                          stroke="#a855f7"
+                          stroke="#5b3fa8"
                           strokeDasharray="4 4"
                           strokeOpacity={0.6}
                         />
@@ -417,10 +417,10 @@ export default function Dashboard() {
                       <Area
                         type="monotone"
                         dataKey="vrn"
-                        stroke="#00e5ff"
+                        stroke="#8a5a12"
                         strokeWidth={2}
                         fill="url(#gVrn)"
-                        dot={{ r: 2.5, fill: '#00e5ff', strokeWidth: 0 }}
+                        dot={{ r: 2.5, fill: '#8a5a12', strokeWidth: 0 }}
                         activeDot={{ r: 5 }}
                       />
                     </AreaChart>
@@ -445,17 +445,17 @@ export default function Dashboard() {
                   <div className="h-56 w-full">
                     <ResponsiveContainer>
                       <LineChart data={reactionData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-                        <CartesianGrid stroke="#16223a" strokeDasharray="3 6" vertical={false} />
+                        <CartesianGrid stroke="#dad7d0" strokeDasharray="3 6" vertical={false} />
                         <XAxis dataKey="x" {...AXIS} tickLine={false} axisLine={false} />
                         <YAxis {...AXIS} tickLine={false} axisLine={false} width={44} />
-                        <Tooltip content={<ChartTip unit="ms" name="Media" />} cursor={{ stroke: '#a855f7', strokeOpacity: 0.25 }} />
-                        <ReferenceLine y={1500} stroke="#26ff9c" strokeDasharray="4 4" strokeOpacity={0.45} />
+                        <Tooltip content={<ChartTip unit="ms" name="Media" />} cursor={{ stroke: '#5b3fa8', strokeOpacity: 0.25 }} />
+                        <ReferenceLine y={1500} stroke="#067a4f" strokeDasharray="4 4" strokeOpacity={0.45} />
                         <Line
                           type="monotone"
                           dataKey="ms"
-                          stroke="#a855f7"
+                          stroke="#5b3fa8"
                           strokeWidth={2}
-                          dot={{ r: 2.5, fill: '#a855f7', strokeWidth: 0 }}
+                          dot={{ r: 2.5, fill: '#5b3fa8', strokeWidth: 0 }}
                           activeDot={{ r: 5 }}
                         />
                       </LineChart>
@@ -477,14 +477,14 @@ export default function Dashboard() {
                   <div className="h-56 w-full">
                     <ResponsiveContainer>
                       <LineChart data={ppmData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
-                        <CartesianGrid stroke="#16223a" strokeDasharray="3 6" vertical={false} />
+                        <CartesianGrid stroke="#dad7d0" strokeDasharray="3 6" vertical={false} />
                         <XAxis dataKey="x" {...AXIS} tickLine={false} axisLine={false} />
                         <YAxis {...AXIS} tickLine={false} axisLine={false} width={44} domain={[250, 950]} />
-                        <Tooltip content={<ChartTip unit="ppm" name="Velocidad" />} cursor={{ stroke: '#ffb020', strokeOpacity: 0.25 }} />
+                        <Tooltip content={<ChartTip unit="ppm" name="Velocidad" />} cursor={{ stroke: '#a06a08', strokeOpacity: 0.25 }} />
                         <Line
                           type="monotone"
                           dataKey="ppm"
-                          stroke="#ffb020"
+                          stroke="#a06a08"
                           strokeWidth={2}
                           dot={(props) => {
                             const { cx: x, cy: y, payload, index } = props
@@ -494,7 +494,7 @@ export default function Dashboard() {
                                 cx={x}
                                 cy={y}
                                 r={3}
-                                fill={payload.validated ? '#26ff9c' : '#ff4d6d'}
+                                fill={payload.validated ? '#067a4f' : '#a32217'}
                               />
                             )
                           }}

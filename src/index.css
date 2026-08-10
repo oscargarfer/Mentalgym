@@ -25,8 +25,10 @@
   /* ---- Tinta ---- */
   --color-ink: #1c1a17; /* texto principal */
   --color-ink-2: #4a463f; /* texto secundario */
-  --color-ink-3: #7c766b; /* etiquetas y unidades */
-  --color-ink-4: #a8a296; /* marcador de posición */
+  /* Medidos contra el papel, no elegidos a ojo: con #7c766b el texto secundario
+   * se quedaba en 4,4:1, por debajo del 4,5:1 que exige AA para texto normal. */
+  --color-ink-3: #6b6559; /* etiquetas y unidades · 5,7:1 */
+  --color-ink-4: #8f8a7e; /* marcador de posición · 3,6:1, solo texto no esencial */
 
   /* ---- Las cuatro capacidades ----
    * Validadas con scripts/validate_palette.js: banda de luminosidad, croma
@@ -42,7 +44,7 @@
   /* ---- Estado ---- */
   --color-ok: #067a4f;
   --color-fail: #a32217;
-  --color-warn: #a06a08;
+  --color-warn: #8a5a08;
 
   /* ---- Pantalla de ejercicio ---- */
   --color-blackout: #0b0b0c;
@@ -70,12 +72,12 @@
   --color-ink-700: #dad7d0;
   --color-line: #dad7d0;
   --color-line-soft: #e8e5df;
-  --color-mute: #7c766b;
+  --color-mute: #6b6559;
   --color-cy: #8a5a12;
   --color-gr: #067a4f;
   --color-vi: #5b3fa8;
   --color-rd: #a32217;
-  --color-am: #a06a08;
+  --color-am: #8a5a08;
 }
 
 @layer base {

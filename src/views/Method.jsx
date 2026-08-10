@@ -339,7 +339,7 @@ function Inicio() {
         <div className="space-y-2">
           {PRIMER_DIA.map(([n, titulo, detalle]) => (
             <div key={n} className="flex gap-3 rounded-xl border border-line-soft p-3">
-              <span className="font-mono text-lg font-bold text-cy/40">{n}</span>
+              <span className="font-mono text-lg font-bold text-ink-4">{n}</span>
               <div className="min-w-0">
                 <div className="text-[13px] font-medium text-ink">{titulo}</div>
                 <p className="mt-1 text-xs leading-relaxed text-mute">{detalle}</p>
@@ -353,7 +353,7 @@ function Inicio() {
         {STEPS.map((s) => (
           <Panel key={s.n}>
             <div className="flex items-start gap-3">
-              <span className="font-mono text-2xl font-bold text-cy/30">{s.n}</span>
+              <span className="font-mono text-2xl font-bold text-ink-4">{s.n}</span>
               <div>
                 <div className="font-mono text-sm font-bold tracking-wide text-ink">
                   {s.title}

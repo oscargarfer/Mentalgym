@@ -53,12 +53,13 @@ linux:
       arch: [x64]
   icon: assets/linux
   category: Education
-  synopsis: Gimnasio de atletas mentales y alto rendimiento cognitivo
+  synopsis: Cuaderno de entrenamiento de la memoria
   description: >-
-    Entrenamiento de memoria por el metodo de asociacion inverosimil:
-    calentamiento de asociacion flash, memorizacion masiva con medida de
-    velocidad, repaso espaciado, taquistoscopio de lectura, casillero numerico
-    y palacio de la memoria. Funciona sin conexion y no envia ningun dato.
+    Entrena cuatro capacidades: asociar, ordenar, retener y procesar. Usa la
+    tecnica de los atletas de memoria -asociacion inverosimil, palacio de la
+    memoria, casillero numerico y repaso espaciado-, que sirve para cualquier
+    material: vocabulario, numeros, cartas o textos. Cada sesion se mide y se
+    registra. Funciona sin conexion y no envia ningun dato a ninguna parte.
 
 deb:
   # Electron necesita estas bibliotecas del sistema; sin declararlas, el paquete

@@ -9,12 +9,12 @@
  * Esas las genera el usuario en su cabeza; la app solo mide el resultado.
  */
 export const LANGUAGES = [
-  { id: 'en', name: 'Inglés', tag: 'EN', accent: '#00e5ff', load: () => import('./vocab/en.json') },
-  { id: 'de', name: 'Alemán', tag: 'DE', accent: '#ffb020', load: () => import('./vocab/de.json') },
-  { id: 'fr', name: 'Francés', tag: 'FR', accent: '#a855f7', load: () => import('./vocab/fr.json') },
-  { id: 'ru', name: 'Ruso', tag: 'RU', accent: '#ff4d6d', load: () => import('./vocab/ru.json') },
-  { id: 'zh', name: 'Chino (Mandarín)', tag: 'ZH', accent: '#ff6b3d', load: () => import('./vocab/zh.json') },
-  { id: 'ja', name: 'Japonés (Romaji)', tag: 'JA', accent: '#ff8ac6', load: () => import('./vocab/ja.json') },
+  { id: 'en', name: 'Inglés', tag: 'EN', accent: '#1c5e8a', load: () => import('./vocab/en.json') },
+  { id: 'de', name: 'Alemán', tag: 'DE', accent: '#8a5a12', load: () => import('./vocab/de.json') },
+  { id: 'fr', name: 'Francés', tag: 'FR', accent: '#5b3fa8', load: () => import('./vocab/fr.json') },
+  { id: 'ru', name: 'Ruso', tag: 'RU', accent: '#a32217', load: () => import('./vocab/ru.json') },
+  { id: 'zh', name: 'Chino (Mandarín)', tag: 'ZH', accent: '#9a4a12', load: () => import('./vocab/zh.json') },
+  { id: 'ja', name: 'Japonés (Romaji)', tag: 'JA', accent: '#8a2f5e', load: () => import('./vocab/ja.json') },
 ]
 
 const getMeta = (id) => LANGUAGES.find((l) => l.id === id) || null

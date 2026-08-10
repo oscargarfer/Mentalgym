@@ -25,8 +25,8 @@ function crearVentana() {
     height: 832,
     minWidth: 900,
     minHeight: 600,
-    // Sin esto la ventana parpadea en blanco antes de pintar la app oscura.
-    backgroundColor: '#04060c',
+    // Sin esto la ventana parpadea antes de pintar la aplicación.
+    backgroundColor: '#f5f4f1',
     autoHideMenuBar: true,
     show: false,
     title: 'Gimnasio Mental',

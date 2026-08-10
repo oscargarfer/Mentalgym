@@ -1,14 +1,14 @@
 {
   "name": "Gimnasio Mental",
   "short_name": "Gimnasio",
-  "description": "Gimnasio de atletas mentales: velocidad, asociación, retentiva y lectura.",
+  "description": "Entrena cuatro capacidades: asociar, ordenar, retener y procesar. La técnica de los atletas de memoria, aplicada a cualquier material.",
   "lang": "es",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#04060c",
-  "theme_color": "#04060c",
+  "background_color": "#f5f4f1",
+  "theme_color": "#f5f4f1",
   "categories": ["education", "productivity"],
   "icons": [
     { "src": "/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
