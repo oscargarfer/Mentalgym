@@ -17,8 +17,8 @@ export async function arrancarMovil() {
   ])
 
   try {
-    await StatusBar.setStyle({ style: Style.Dark })
-    await StatusBar.setBackgroundColor({ color: '#04060c' })
+    await StatusBar.setStyle({ style: Style.Light })
+    await StatusBar.setBackgroundColor({ color: '#f5f4f1' })
   } catch {
     /* algunas versiones de Android no dejan tocar la barra: no es motivo de nada */
   }

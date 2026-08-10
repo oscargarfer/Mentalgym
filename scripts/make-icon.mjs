@@ -25,8 +25,15 @@ const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..')
 const OUT = join(RAIZ, 'assets')
 const SIZES = [16, 32, 48, 64, 128, 256]
 
-const BG = [0x0a, 0x0e, 0x18]
-const CY = [0x00, 0xe5, 0xff]
+// Tinta y papel del cuaderno. El fondo oscuro no es estética: un icono claro
+// desaparece sobre los lanzadores claros, y este tiene que leerse a 16 px.
+const BG = [0x1c, 0x1a, 0x17]
+const CY = [0xfc, 0xfc, 0xfb]
+// Una sola estación marcada, en el ocre de "asociar". El acento se gasta en un
+// solo sitio.
+const ACENTO = [0xb8, 0x7a, 0x1f]
+const PAPEL = [0xf5, 0xf4, 0xf1]
+const TINTA = [0x1c, 0x1a, 0x17]
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
@@ -86,6 +93,7 @@ function render(s, { forma = 'redondeado', escala = 1 } = {}) {
   ].map(([x, y]) => [(x - 50) * k + centro, (y - 50) * k + centro])
   const stroke = 9 * k * 0.5 // radio del trazo
   const glow = stroke * 2.6
+  const estaciones = s >= 40 && forma !== 'ninguna'
 
   for (let y = 0; y < s; y++) {
     for (let x = 0; x < s; x++) {
@@ -107,10 +115,22 @@ function render(s, { forma = 'redondeado', escala = 1 } = {}) {
         const dd = distSeg(px, py, pts[n][0], pts[n][1], pts[n + 1][0], pts[n + 1][1])
         if (dd < d) d = dd
       }
-      // Halo suave, recortado a la silueta
-      blend(buf, i, CY, clamp01(1 - d / glow) * 0.22 * inside)
-      // Trazo con antialiasing
+      // Trazo con antialiasing. Sin halo: el resplandor era del diseño anterior.
       blend(buf, i, CY, clamp01(stroke + 0.5 - d) * inside)
+
+      // Estaciones del recorrido: el zigzag deja de ser una letra y pasa a ser
+      // lo que de verdad hace la aplicación, un itinerario con puntos.
+      //
+      // Solo por encima de 40 px. Más pequeño, el punto mide menos de medio
+      // píxel y en vez de leerse como estación parte el trazo en trocitos: a
+      // 16 px el icono tiene que ser una silueta limpia y nada más.
+      if (estaciones) {
+        for (let n = 0; n < pts.length; n++) {
+          const dv = Math.hypot(px - pts[n][0], py - pts[n][1])
+          const color = n === 2 ? ACENTO : BG
+          blend(buf, i, color, clamp01(stroke * 0.62 + 0.5 - dv) * inside)
+        }
+      }
     }
   }
   return Buffer.from(Uint8Array.from(buf, (v) => Math.round(Math.min(255, Math.max(0, v)))))
@@ -124,12 +144,12 @@ function render(s, { forma = 'redondeado', escala = 1 } = {}) {
  * píxeles, y calcular la distancia al trazo en todos ellos tarda de más para
  * nada.
  */
-function renderLienzo(w, h, lado) {
+function renderLienzo(w, h, lado, fondo = BG, trazo = CY) {
   const buf = new Float64Array(w * h * 4)
   for (let i = 0; i < w * h; i++) {
-    buf[i * 4] = BG[2]
-    buf[i * 4 + 1] = BG[1]
-    buf[i * 4 + 2] = BG[0]
+    buf[i * 4] = fondo[2]
+    buf[i * 4 + 1] = fondo[1]
+    buf[i * 4 + 2] = fondo[0]
     buf[i * 4 + 3] = 255
   }
 
@@ -162,8 +182,7 @@ function renderLienzo(w, h, lado) {
         const dd = distSeg(px, py, pts[n][0], pts[n][1], pts[n + 1][0], pts[n + 1][1])
         if (dd < d) d = dd
       }
-      blend(buf, i, CY, clamp01(1 - d / glow) * 0.22)
-      blend(buf, i, CY, clamp01(stroke + 0.5 - d))
+      blend(buf, i, trazo, clamp01(stroke + 0.5 - d))
     }
   }
   return Buffer.from(Uint8Array.from(buf, (v) => Math.round(Math.min(255, Math.max(0, v)))))
@@ -337,7 +356,7 @@ if (existsSync(RES)) {
     const cabecera = readFileSync(ruta)
     const w = cabecera.readUInt32BE(16)
     const h = cabecera.readUInt32BE(20)
-    const datos = png(renderLienzo(w, h, Math.min(w, h) * 0.28), w, h)
+    const datos = png(renderLienzo(w, h, Math.min(w, h) * 0.24, PAPEL, TINTA), w, h)
     writeFileSync(ruta, datos)
     generados.push([relativo(ruta), `${w}x${h}`, datos.length])
   }

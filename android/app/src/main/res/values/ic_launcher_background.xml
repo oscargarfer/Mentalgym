@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Fondo del icono adaptativo: el mismo tinta del fondo de la app. Blanco
-         dejaba el trazo cian ilegible en el lanzador. -->
-    <color name="ic_launcher_background">#04060C</color>
+    <!-- Fondo del icono adaptativo: la misma tinta del cuaderno. Un fondo claro
+         dejaria el trazo, que tambien es claro, invisible en el lanzador. -->
+    <color name="ic_launcher_background">#1C1A17</color>
 </resources>
