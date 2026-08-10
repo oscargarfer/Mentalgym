@@ -123,7 +123,12 @@ for (const lang of LANGS) {
   }
 
   resumen.push({ lang, antes: mazo.length, fuera: fuera.length, quedan: quedan.length })
-  if (!simular) writeFileSync(ruta, `${JSON.stringify(quedan)}\n`, 'utf8')
+  // Una entrada por línea, como estaban: en un solo renglón el diff de cualquier
+  // cambio futuro sería el archivo entero y no se podría revisar.
+  if (!simular) {
+    const cuerpo = quedan.map((f) => `  ${JSON.stringify(f)}`).join(',\n')
+    writeFileSync(ruta, `[\n${cuerpo}\n]\n`, 'utf8')
+  }
 }
 
 console.log('Resultado por idioma:')
