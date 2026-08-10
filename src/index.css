@@ -171,8 +171,48 @@
     border: 1px solid var(--color-rule);
   }
 
-  /* La pantalla del ejercicio. Aquí no hay diseño a propósito. */
-  .blackout {
+  /* La pantalla del ejercicio. Aquí no hay diseño a propósito.
+   *
+   * En vez de duplicar cada pantalla en versión clara y oscura, se redefinen los
+   * tokens dentro del contenedor: las utilidades de Tailwind leen
+   * `var(--color-…)`, así que todo lo que hay dentro cambia de tinta solo. Los
+   * seis módulos no se enteran, y no hay dos diseños que mantener sincronizados.
+   *
+   * Se activa mientras dura un ejercicio (`locked`), que es exactamente cuando
+   * la interfaz tiene que desaparecer para dejar sitio a la imagen mental. */
+  .modo-ejercicio {
+    --color-paper: var(--color-blackout);
+    --color-surface: var(--color-blackout);
+    --color-surface-2: var(--color-blackout-2);
+    --color-rule: var(--color-blackout-rule);
+    --color-rule-soft: #24222a;
+    --color-rule-strong: var(--color-blackout-ink-3);
+    --color-ink: var(--color-blackout-ink);
+    --color-ink-2: var(--color-blackout-ink-2);
+    --color-ink-3: var(--color-blackout-ink-3);
+    --color-ink-4: #55525a;
+
+    /* Los mismos alias que siguen usando los módulos. */
+    --color-ink-950: var(--color-blackout);
+    --color-ink-900: var(--color-blackout);
+    --color-ink-850: var(--color-blackout-2);
+    --color-ink-800: var(--color-blackout-2);
+    --color-line: var(--color-blackout-rule);
+    --color-line-soft: #24222a;
+    --color-mute: var(--color-blackout-ink-3);
+
+    /* Sobre negro, los colores de capacidad necesitan subir de luminosidad o se
+     * hunden en el fondo. Son los mismos tonos, validados para fondo oscuro. */
+    --color-aso: #b87a1f;
+    --color-ord: #1f8a6d;
+    --color-ret: #7a5ad0;
+    --color-pro: #c0392b;
+    --color-cy: #b87a1f;
+    --color-gr: #1f8a6d;
+    --color-vi: #7a5ad0;
+    --color-rd: #c0392b;
+    --color-am: #c8963e;
+
     background-color: var(--color-blackout);
     color: var(--color-blackout-ink);
   }

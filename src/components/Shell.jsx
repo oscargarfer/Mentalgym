@@ -96,7 +96,7 @@ export default function Shell({ view, setView, children }) {
   }
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-surface">
+    <div className={cx('flex h-full w-full overflow-hidden bg-surface', locked && 'modo-ejercicio')}>
       {/* ---------- Barra lateral ---------- */}
       <aside className="flex w-[62px] shrink-0 flex-col border-r border-rule bg-paper lg:w-[232px]">
         <div className="border-b border-rule px-4 py-4 lg:px-5">
