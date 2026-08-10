@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { GRAMATICALES } from './gramaticales.mjs'
+import { descartes } from './ruido.mjs'
 
 const RAIZ = dirname(dirname(dirname(fileURLToPath(import.meta.url))))
 // El corpus descargado vive fuera del repositorio: son ~53 MB y licencias que
@@ -59,13 +60,14 @@ for (const lang of ['en', 'de', 'fr', 'ru', 'zh']) {
   const aLema = cargarLemas(lang)
   const lema = (w) => aLema.get(w) || w
 
+  const descartadas = descartes(lang)
   const cuenta = new Map()
   const mejorForma = new Map()
   for (const linea of readFileSync(join(CORPUS, `${lang}_50k.txt`), 'utf8').trim().split('\n')) {
     const [w, n] = linea.split(' ')
-    if (!w || !n || !valida[lang](w) || GRAMATICALES[lang].has(w)) continue
+    if (!w || !n || !valida[lang](w) || GRAMATICALES[lang].has(w) || descartadas.has(w)) continue
     const l = lema(w)
-    if (GRAMATICALES[lang].has(l)) continue
+    if (GRAMATICALES[lang].has(l) || descartadas.has(l)) continue
     cuenta.set(l, (cuenta.get(l) || 0) + Number(n))
     if (!mejorForma.has(l)) mejorForma.set(l, w)
   }
