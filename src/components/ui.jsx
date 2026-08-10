@@ -106,7 +106,7 @@ export function Btn({ children, onClick, tone = 'cy', size = 'md', className = '
     gr: 'border-gr/40 text-gr hover:bg-gr/12 hover:border-gr/70',
     rd: 'border-rd/40 text-rd hover:bg-rd/12 hover:border-rd/70',
     vi: 'border-vi/40 text-vi hover:bg-vi/12 hover:border-vi/70',
-    mute: 'border-line text-slate-300 hover:bg-white/5 hover:border-slate-500',
+    mute: 'border-line text-ink-2 hover:bg-white/5 hover:border-ink-3',
   }
   const sizes = {
     sm: 'px-3 py-1.5 text-[11px]',
@@ -147,7 +147,7 @@ export function Choice({ options, value, onChange, className = '' }) {
               'rounded-lg border px-3.5 py-2 font-mono text-xs font-bold tracking-wide transition-all active:scale-95',
               active
                 ? 'border-cy/70 bg-cy/12 text-cy glow-cy'
-                : 'border-line text-mute hover:border-slate-500 hover:text-slate-300',
+                : 'border-line text-mute hover:border-ink-3 hover:text-ink-2',
             )}
           >
             {label}
@@ -179,9 +179,9 @@ export function Toggle({ checked, onChange, label }) {
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className="flex w-full items-center justify-between gap-4 rounded-lg border border-line px-4 py-3 text-left transition-colors hover:border-slate-600"
+      className="flex w-full items-center justify-between gap-4 rounded-lg border border-line px-4 py-3 text-left transition-colors hover:border-ink-4"
     >
-      <span className="text-sm text-slate-300">{label}</span>
+      <span className="text-sm text-ink-2">{label}</span>
       <span
         className={cx(
           'relative h-5 w-9 shrink-0 rounded-full border transition-colors',
@@ -191,7 +191,7 @@ export function Toggle({ checked, onChange, label }) {
         <span
           className={cx(
             'absolute top-0.5 h-3.5 w-3.5 rounded-full transition-all',
-            checked ? 'left-[18px] bg-cy' : 'left-0.5 bg-slate-500',
+            checked ? 'left-[18px] bg-cy' : 'left-0.5 bg-ink-3',
           )}
         />
       </span>
@@ -320,7 +320,7 @@ export function EmptyState({ icon: Icon, title, children }) {
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
       {Icon && <Icon size={36} className="text-line" />}
       <p className="font-mono text-sm uppercase tracking-widest text-mute">{title}</p>
-      {children && <p className="max-w-md text-sm text-slate-500">{children}</p>}
+      {children && <p className="max-w-md text-sm text-ink-3">{children}</p>}
     </div>
   )
 }

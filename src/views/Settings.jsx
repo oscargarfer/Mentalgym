@@ -71,7 +71,7 @@ export default function Settings() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
       <div className="mx-auto w-full max-w-4xl px-6 py-8">
-        <h1 className="mb-6 font-mono text-2xl font-bold tracking-tight text-slate-100">
+        <h1 className="mb-6 font-mono text-2xl font-bold tracking-tight text-ink">
           Ajustes del <span className="text-cy">gimnasio</span>
         </h1>
 
@@ -95,7 +95,7 @@ export default function Settings() {
                     'group relative flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all',
                     active
                       ? 'border-cy/60 bg-cy/8 glow-cy'
-                      : 'border-line hover:border-slate-600 hover:bg-white/3',
+                      : 'border-line hover:border-ink-4 hover:bg-white/3',
                   )}
                 >
                   <span
@@ -109,7 +109,7 @@ export default function Settings() {
                     {d.tag}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium text-slate-200">
+                    <span className="block truncate text-sm font-medium text-ink">
                       {d.name}
                     </span>
                     <span className="block font-mono text-[10px] text-mute">
@@ -136,7 +136,7 @@ export default function Settings() {
             })}
           </div>
           <p className="mt-3 text-xs leading-relaxed text-mute">
-            Los mazos contienen <b className="text-slate-300">palabra extranjera → significado real
+            Los mazos contienen <b className="text-ink-2">palabra extranjera → significado real
             en español</b>. La palabra puente y la imagen mental no se almacenan en ningún sitio:
             son tuyas y se crean en tu cabeza durante la carga.
           </p>
@@ -152,7 +152,7 @@ export default function Settings() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nombre del mazo (ej. Italiano A2)"
-                  className="min-w-0 flex-1 rounded-lg border border-line bg-ink-950/60 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-700 focus:border-cy/50"
+                  className="min-w-0 flex-1 rounded-lg border border-line bg-ink-950/60 px-3 py-2 text-sm text-ink placeholder:text-ink-4 focus:border-cy/50"
                 />
                 <Btn tone="mute" size="sm" onClick={() => fileRef.current?.click()}>
                   <FileJson size={11} className="mr-1 inline" /> Archivo
@@ -173,7 +173,7 @@ export default function Settings() {
                 }}
                 rows={9}
                 placeholder="Pega aquí tu JSON o CSV..."
-                className="w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-slate-300 placeholder:text-slate-700 focus:border-cy/50"
+                className="w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-ink-2 placeholder:text-ink-4 focus:border-cy/50"
               />
               <div className="mt-2 flex flex-wrap items-center gap-3">
                 <Btn tone="gr" onClick={doImport} disabled={!raw.trim()}>
@@ -196,7 +196,7 @@ export default function Settings() {
               <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
                 Formatos aceptados
               </div>
-              <pre className="mt-2 overflow-x-auto whitespace-pre-wrap font-mono text-[10px] leading-relaxed text-slate-500">
+              <pre className="mt-2 overflow-x-auto whitespace-pre-wrap font-mono text-[10px] leading-relaxed text-ink-3">
                 {SAMPLE}
               </pre>
               <p className="mt-2 font-mono text-[10px] text-mute">
@@ -243,7 +243,7 @@ export default function Settings() {
             <p className="mt-2 text-xs text-mute">
               El mazo está ordenado por frecuencia: primero las palabras que
               sostienen el idioma, después el vocabulario común y al final la
-              ampliación. Empezar por el <b className="text-slate-300">núcleo</b> es
+              ampliación. Empezar por el <b className="text-ink-2">núcleo</b> es
               lo que hace que memorices lo que de verdad vas a usar. Los mazos
               propios entran enteros, sea cual sea el nivel.
             </p>
@@ -374,7 +374,7 @@ export default function Settings() {
                     value={palabra}
                     onChange={(e) => updatePeg(n, e.target.value)}
                     spellCheck={false}
-                    className="min-w-0 flex-1 bg-transparent font-mono text-xs text-slate-200 focus:text-cy"
+                    className="min-w-0 flex-1 bg-transparent font-mono text-xs text-ink focus:text-cy"
                   />
                 </div>
               )

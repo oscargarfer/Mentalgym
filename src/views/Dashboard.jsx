@@ -18,7 +18,7 @@ function ChartTip({ active, payload, label, unit, name }) {
   return (
     <div className="rounded-lg border border-line bg-ink-950/95 px-3 py-2 font-mono text-[11px] shadow-xl">
       <div className="text-mute">{label}</div>
-      <div className="text-slate-100">
+      <div className="text-ink">
         {name}: <b style={{ color: payload[0].color }}>{payload[0].value}</b> {unit}
       </div>
     </div>
@@ -135,11 +135,11 @@ export default function Dashboard() {
         {/* Cabecera */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+            <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
               Panel de <span className="text-cy">alto rendimiento</span>
             </h1>
             <p className="mt-1 text-sm text-mute">
-              Idioma activo: <b className="text-slate-300">{deck.name}</b> · {sessions.length}{' '}
+              Idioma activo: <b className="text-ink-2">{deck.name}</b> · {sessions.length}{' '}
               sesiones registradas
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function Dashboard() {
                       className={resumenRepaso.pendientes ? 'text-am' : 'text-gr'}
                     />
                     <div>
-                      <div className="font-mono text-sm font-bold text-slate-100">
+                      <div className="font-mono text-sm font-bold text-ink">
                         {resumenRepaso.pendientes
                           ? `${resumenRepaso.pendientes} palabras esperando repaso`
                           : 'Repaso al día'}
@@ -376,7 +376,7 @@ export default function Dashboard() {
                             'rounded-md border px-2 py-0.5 font-mono text-[10px] font-bold transition-colors',
                             n === loteActivo
                               ? 'border-cy/60 bg-cy/12 text-cy'
-                              : 'border-line text-mute hover:text-slate-300',
+                              : 'border-line text-mute hover:text-ink-2',
                           )}
                         >
                           {n}
@@ -623,8 +623,8 @@ function SessionRow({ s }) {
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-line-soft px-3 py-2 font-mono text-[11px]">
       <Icon size={13} className={cx('shrink-0', meta.color)} />
       <Badge tone={meta.tone}>{meta.label}</Badge>
-      <span className="text-slate-500">{s.langName || s.lang}</span>
-      <span className="flex flex-wrap items-center gap-x-2 text-slate-300">{detail}</span>
+      <span className="text-ink-3">{s.langName || s.lang}</span>
+      <span className="flex flex-wrap items-center gap-x-2 text-ink-2">{detail}</span>
       <span className="ml-auto text-mute">{fmtDateTime(s.ts)}</span>
     </div>
   )

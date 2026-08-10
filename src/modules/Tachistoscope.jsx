@@ -32,14 +32,14 @@ function OrpWord({ word }) {
   return (
     <div className="relative flex w-full items-center justify-center font-mono text-6xl font-bold tracking-tight sm:text-7xl">
       <span
-        className="absolute whitespace-pre text-slate-100"
+        className="absolute whitespace-pre text-ink"
         style={{ right: 'calc(50% + 0.5ch)' }}
       >
         {word.slice(0, i)}
       </span>
       <span className="text-rd text-glow">{word[i]}</span>
       <span
-        className="absolute whitespace-pre text-slate-100"
+        className="absolute whitespace-pre text-ink"
         style={{ left: 'calc(50% + 0.5ch)' }}
       >
         {word.slice(i + 1)}
@@ -328,7 +328,7 @@ export default function Tachistoscope() {
                 ? 'border-gr/60 text-gr glow-gr'
                 : feedback === 'fail'
                   ? 'border-rd/60 text-rd glow-rd'
-                  : 'border-line text-slate-100',
+                  : 'border-line text-ink',
             )}
           >
             {q.word}
@@ -412,11 +412,11 @@ export default function Tachistoscope() {
                   ) : (
                     <XCircle size={14} className="shrink-0 text-rd" />
                   )}
-                  <span className="text-slate-200">{d.word}</span>
+                  <span className="text-ink">{d.word}</span>
                   <span className="ml-auto text-mute">
                     dijiste <b className={d.ok ? 'text-gr' : 'text-rd'}>{d.given ? 'SÍ' : 'NO'}</b>
                     {' · '}realidad{' '}
-                    <b className="text-slate-300">{d.appeared ? 'SÍ apareció' : 'NO apareció'}</b>
+                    <b className="text-ink-2">{d.appeared ? 'SÍ apareció' : 'NO apareció'}</b>
                   </span>
                 </div>
               ))}
@@ -480,7 +480,7 @@ export default function Tachistoscope() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 3 · <span className="text-cy">Taquistoscopio / RSVP</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
@@ -570,7 +570,7 @@ export default function Tachistoscope() {
                 onChange={(e) => setCustomText(e.target.value)}
                 placeholder="Pega aquí cualquier texto para entrenar sobre él..."
                 rows={5}
-                className="mt-3 w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-slate-300 placeholder:text-slate-700 focus:border-cy/50"
+                className="mt-3 w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-ink-2 placeholder:text-ink-4 focus:border-cy/50"
               />
             )}
             <p className="mt-2 flex items-center gap-1.5 font-mono text-[11px] text-mute">

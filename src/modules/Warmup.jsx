@@ -254,7 +254,7 @@ export default function Warmup() {
             engancha la imagen mental
           </span>
           <div key={idx} className="anim-pop flex flex-col items-center gap-5 text-center">
-            <div className="font-mono text-4xl font-bold tracking-tight text-slate-100 sm:text-6xl">
+            <div className="font-mono text-4xl font-bold tracking-tight text-ink sm:text-6xl">
               {p.a}
             </div>
             <div className="flex items-center gap-3">
@@ -262,7 +262,7 @@ export default function Warmup() {
               <span className="font-mono text-lg text-cy text-glow">+</span>
               <span className="h-px w-12 bg-line" />
             </div>
-            <div className="font-mono text-4xl font-bold tracking-tight text-slate-100 sm:text-6xl">
+            <div className="font-mono text-4xl font-bold tracking-tight text-ink sm:text-6xl">
               {p.b}
             </div>
             {p.note && <div className="font-mono text-xs text-mute">{p.note}</div>}
@@ -312,7 +312,7 @@ export default function Warmup() {
             autoCorrect="off"
             autoCapitalize="off"
             enterKeyHint="done"
-            className={`w-full max-w-lg rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700 ${
+            className={`w-full max-w-lg rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-ink transition-colors placeholder:text-ink-4 ${
               feedback === 'ok'
                 ? 'border-gr/70 glow-gr'
                 : feedback === 'fail'
@@ -370,14 +370,14 @@ export default function Warmup() {
                   ) : (
                     <XCircle size={14} className="shrink-0 text-rd" />
                   )}
-                  <span className="text-slate-300">{q.ask === 'a' ? q.a : q.b}</span>
+                  <span className="text-ink-2">{q.ask === 'a' ? q.a : q.b}</span>
                   <ArrowRight size={12} className="text-line" />
                   <span className={q.ok ? 'text-gr' : 'text-rd line-through'}>
                     {q.given || '(sin respuesta)'}
                   </span>
                   {!q.ok && (
                     <span className="ml-auto text-mute">
-                      correcto: <b className="text-slate-300">{q.ask === 'a' ? q.b : q.a}</b>
+                      correcto: <b className="text-ink-2">{q.ask === 'a' ? q.b : q.a}</b>
                     </span>
                   )}
                 </div>
@@ -410,7 +410,7 @@ export default function Warmup() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 1 · <span className="text-cy">Asociación Flash</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">

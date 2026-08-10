@@ -274,7 +274,7 @@ export default function Method() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
       <div className="mx-auto w-full max-w-4xl px-6 py-8">
-        <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+        <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
           Manual de <span className="text-cy">entrenamiento</span>
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
@@ -292,7 +292,7 @@ export default function Method() {
                 'flex items-center gap-2 rounded-xl border px-4 py-2 font-mono text-xs font-bold tracking-wide transition-all active:scale-95',
                 tab === p.id
                   ? 'border-cy/70 bg-cy/12 text-cy glow-cy'
-                  : 'border-line text-mute hover:border-slate-500 hover:text-slate-300',
+                  : 'border-line text-mute hover:border-ink-3 hover:text-ink-2',
               )}
             >
               <p.icon size={13} />
@@ -324,7 +324,7 @@ function Inicio() {
           aprende cualquier cosa, y usa vocabulario extranjero como peso con el que levantar.
         </p>
         <p className="mt-3 text-[13px] leading-relaxed text-mute">
-          La aplicación <b className="text-slate-200">nunca</b> te da resuelta la palabra puente ni
+          La aplicación <b className="text-ink">nunca</b> te da resuelta la palabra puente ni
           la imagen mental. Solo te muestra la palabra extranjera y su significado real, te
           cronometra y te dice cuántas sobrevivieron. Si te diera las asociaciones hechas estarías
           memorizando las de otro, y esas no agarran. El trabajo mental es tuyo; el de medirlo sin
@@ -341,7 +341,7 @@ function Inicio() {
             <div key={n} className="flex gap-3 rounded-xl border border-line-soft p-3">
               <span className="font-mono text-lg font-bold text-cy/40">{n}</span>
               <div className="min-w-0">
-                <div className="text-[13px] font-medium text-slate-200">{titulo}</div>
+                <div className="text-[13px] font-medium text-ink">{titulo}</div>
                 <p className="mt-1 text-xs leading-relaxed text-mute">{detalle}</p>
               </div>
             </div>
@@ -355,7 +355,7 @@ function Inicio() {
             <div className="flex items-start gap-3">
               <span className="font-mono text-2xl font-bold text-cy/30">{s.n}</span>
               <div>
-                <div className="font-mono text-sm font-bold tracking-wide text-slate-100">
+                <div className="font-mono text-sm font-bold tracking-wide text-ink">
                   {s.title}
                 </div>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-mute">{s.text}</p>
@@ -384,7 +384,7 @@ function Inicio() {
             <div key={cap} className="flex flex-wrap items-center gap-3 rounded-lg border border-line-soft px-3 py-2">
               <span className={cx('w-44 shrink-0 font-mono text-xs font-bold', color)}>{cap}</span>
               <Badge tone="mute">{mod}</Badge>
-              <span className="min-w-0 flex-1 text-[13px] text-slate-400">{desc}</span>
+              <span className="min-w-0 flex-1 text-[13px] text-ink-3">{desc}</span>
             </div>
           ))}
         </div>
@@ -411,7 +411,7 @@ function Ejercicios() {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <Kbd>{e.tecla}</Kbd>
-                <span className="font-mono text-sm font-bold text-slate-100">{e.nombre}</span>
+                <span className="font-mono text-sm font-bold text-ink">{e.nombre}</span>
               </div>
               <div className={cx('mt-0.5 font-mono text-[10px] font-bold tracking-[0.18em]', e.color)}>
                 ENTRENA · {e.capacidad}
@@ -419,7 +419,7 @@ function Ejercicios() {
             </div>
           </div>
 
-          <p className="text-[13px] leading-relaxed text-slate-300">{e.queEs}</p>
+          <p className="text-[13px] leading-relaxed text-ink-2">{e.queEs}</p>
           <p className="mt-2 text-[13px] leading-relaxed text-mute">{e.porque}</p>
 
           <div className="mt-4">
@@ -428,7 +428,7 @@ function Ejercicios() {
             </p>
             <ol className="space-y-1.5">
               {e.pasos.map((p, i) => (
-                <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-slate-300">
+                <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-ink-2">
                   <span className="mt-0.5 font-mono text-[11px] font-bold text-cy/60">{i + 1}.</span>
                   <span className="min-w-0">{p}</span>
                 </li>
@@ -457,7 +457,7 @@ function Ejercicios() {
               <p className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-cy">
                 <Lightbulb size={11} /> Ejemplo · {e.ejemplo.par}
               </p>
-              <p className="text-[13px] leading-relaxed text-slate-300">{e.ejemplo.imagen}</p>
+              <p className="text-[13px] leading-relaxed text-ink-2">{e.ejemplo.imagen}</p>
             </div>
           )}
 
@@ -466,14 +466,14 @@ function Ejercicios() {
               <p className="mb-1 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
                 <Gauge size={11} /> Qué se mide
               </p>
-              <p className="font-mono text-xs text-slate-200">{e.metrica}</p>
+              <p className="font-mono text-xs text-ink">{e.metrica}</p>
               <p className="mt-2 text-xs leading-relaxed text-mute">{e.objetivo}</p>
             </div>
             <div className="rounded-xl border border-rd/25 bg-rd/4 p-3">
               <p className="mb-1 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-rd">
                 <TriangleAlert size={11} /> Error típico
               </p>
-              <p className="text-xs leading-relaxed text-slate-300">{e.error}</p>
+              <p className="text-xs leading-relaxed text-ink-2">{e.error}</p>
             </div>
           </div>
 
@@ -503,7 +503,7 @@ function Protocolo() {
             <div key={i} className="flex flex-wrap items-center gap-3 rounded-lg border border-line-soft px-3 py-2.5">
               <span className="w-14 shrink-0 font-mono text-xs font-bold text-cy">{p.t}</span>
               <Badge tone="mute">{p.m}</Badge>
-              <span className="min-w-0 flex-1 text-[13px] text-slate-300">{p.d}</span>
+              <span className="min-w-0 flex-1 text-[13px] text-ink-2">{p.d}</span>
             </div>
           ))}
         </div>
@@ -517,25 +517,25 @@ function Protocolo() {
         <SectionTitle icon={TriangleAlert}>Reglas que no conviene saltarse</SectionTitle>
         <div className="space-y-2 text-[13px] leading-relaxed text-mute">
           <p>
-            <b className="text-slate-200">Diez minutos diarios baten a dos horas un domingo.</b> La
+            <b className="text-ink">Diez minutos diarios baten a dos horas un domingo.</b> La
             consolidación ocurre mientras duermes, no mientras entrenas. Por eso el repaso va por
             días y no por sesiones.
           </p>
           <p>
-            <b className="text-slate-200">El repaso va primero.</b> Si acumulas deuda, cargar más
+            <b className="text-ink">El repaso va primero.</b> Si acumulas deuda, cargar más
             solo empeora el problema.
           </p>
           <p>
-            <b className="text-slate-200">Sube una cosa cada vez.</b> O el tamaño del lote, o los
+            <b className="text-ink">Sube una cosa cada vez.</b> O el tamaño del lote, o los
             PPM, o la longitud del palacio. Nunca las tres a la vez, o no sabrás qué te ha roto.
           </p>
           <p>
-            <b className="text-slate-200">La retención manda sobre la velocidad.</b> Si cae por
+            <b className="text-ink">La retención manda sobre la velocidad.</b> Si cae por
             debajo del 60 % dos sesiones seguidas, no subas carga: estás acumulando fatiga, no
             capacidad.
           </p>
           <p>
-            <b className="text-slate-200">Cansado no se memoriza.</b> Una sesión con la cabeza
+            <b className="text-ink">Cansado no se memoriza.</b> Una sesión con la cabeza
             fundida ensucia el histórico y no fija nada. Ese día haz solo el repaso.
           </p>
         </div>
@@ -552,7 +552,7 @@ function Protocolo() {
           ].map(([cuando, que]) => (
             <div key={cuando} className="flex flex-wrap items-baseline gap-3 rounded-lg border border-line-soft px-3 py-2">
               <span className="w-20 shrink-0 font-mono text-xs font-bold text-gr">{cuando}</span>
-              <span className="min-w-0 flex-1 text-[13px] text-slate-300">{que}</span>
+              <span className="min-w-0 flex-1 text-[13px] text-ink-2">{que}</span>
             </div>
           ))}
         </div>
@@ -581,7 +581,7 @@ function Teclas() {
                 <Kbd key={k}>{k}</Kbd>
               ))}
             </span>
-            <span className="min-w-0 flex-1 text-[12px] text-slate-400">{s.desc}</span>
+            <span className="min-w-0 flex-1 text-[12px] text-ink-3">{s.desc}</span>
           </div>
         ))}
       </div>

@@ -304,7 +304,7 @@ export default function Numbers() {
             autoCapitalize="off"
             enterKeyHint="done"
             className={cx(
-              'w-full max-w-lg rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
+              'w-full max-w-lg rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-ink transition-colors placeholder:text-ink-4',
               feedback === 'ok' ? 'border-gr/70 glow-gr'
                 : feedback === 'fail' ? 'border-rd/70 glow-rd'
                   : 'border-line focus:border-vi/60',
@@ -312,7 +312,7 @@ export default function Numbers() {
           />
           {feedback === 'fail' && (
             <div className="anim-in font-mono text-sm text-rd">
-              era → <b className="text-slate-200">{q.palabra}</b>
+              era → <b className="text-ink">{q.palabra}</b>
             </div>
           )}
         </div>
@@ -340,7 +340,7 @@ export default function Numbers() {
 
         <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 px-6">
           <div key={idx} className="anim-pop flex flex-col items-center gap-4">
-            <div className="font-mono text-8xl font-bold tracking-widest text-slate-100 tabular-nums">
+            <div className="font-mono text-8xl font-bold tracking-widest text-ink tabular-nums">
               {it.etiqueta}
             </div>
             {tipo === 'binario' && (
@@ -381,12 +381,12 @@ export default function Numbers() {
             onChange={(e) => setRespuesta(e.target.value)}
             rows={5}
             spellCheck={false}
-            className="w-full rounded-xl border border-line bg-ink-950/60 p-4 font-mono text-xl tracking-widest text-slate-100 placeholder:text-slate-700 focus:border-vi/60"
+            className="w-full rounded-xl border border-line bg-ink-950/60 p-4 font-mono text-xl tracking-widest text-ink placeholder:text-ink-4 focus:border-vi/60"
             placeholder={tipo === 'baraja' ? 'as 10c kd ...' : tipo === 'binario' ? '101 011 ...' : '07 14 52 ...'}
           />
           <div className="mt-2 flex items-center justify-between font-mono text-[11px] text-mute">
             <span>
-              has escrito <b className="text-slate-300">{dadas.length}</b> de {items.length} unidades
+              has escrito <b className="text-ink-2">{dadas.length}</b> de {items.length} unidades
             </span>
             <span>{tipo !== 'baraja' && `${dadas.join('').length} cifras`}</span>
           </div>
@@ -446,7 +446,7 @@ export default function Numbers() {
                       <XCircle size={13} className="shrink-0 text-rd" />
                       <span className="text-vi">{f.par}</span>
                       <span className="text-mute">→</span>
-                      <span className="text-slate-300">{f.palabra}</span>
+                      <span className="text-ink-2">{f.palabra}</span>
                       {f.given && <span className="ml-auto truncate text-rd/70 line-through">{f.given}</span>}
                     </div>
                   ))}
@@ -491,7 +491,7 @@ export default function Numbers() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 6 · <span className="text-cy">Números y casillero</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
@@ -572,7 +572,7 @@ export default function Numbers() {
             {TABLA_FONETICA.map((f) => (
               <div key={f.d} className="flex items-center gap-3 rounded-lg border border-line-soft px-3 py-2">
                 <span className="font-mono text-xl font-bold text-cy">{f.d}</span>
-                <span className="font-mono text-sm text-slate-200">{f.letras}</span>
+                <span className="font-mono text-sm text-ink">{f.letras}</span>
                 <span className="ml-auto text-[11px] text-mute">{f.pista}</span>
               </div>
             ))}

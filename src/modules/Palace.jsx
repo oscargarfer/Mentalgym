@@ -252,11 +252,11 @@ export default function Palace() {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               placeholder="Nombre (ej. Mi casa, El camino al trabajo)"
-              className="w-full rounded-lg border border-line bg-ink-950/60 px-3 py-2 text-sm text-slate-200 placeholder:text-slate-700 focus:border-cy/50"
+              className="w-full rounded-lg border border-line bg-ink-950/60 px-3 py-2 text-sm text-ink placeholder:text-ink-4 focus:border-cy/50"
             />
             <div>
               <p className="mb-2 text-xs leading-relaxed text-mute">
-                Un punto por línea, <b className="text-slate-300">en el orden exacto en que los
+                Un punto por línea, <b className="text-ink-2">en el orden exacto en que los
                 recorres</b>. Tienen que ser sitios que conozcas de memoria y que puedas recorrer
                 siempre igual: la puerta, el perchero, el espejo, el sofá… Mínimo 3, ideal 10-20.
               </p>
@@ -266,7 +266,7 @@ export default function Palace() {
                 rows={12}
                 spellCheck={false}
                 placeholder={'puerta de entrada\nperchero\nespejo del recibidor\nsofá\ntelevisor\nventana\n…'}
-                className="w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-sm text-slate-300 placeholder:text-slate-700 focus:border-cy/50"
+                className="w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-sm text-ink-2 placeholder:text-ink-4 focus:border-cy/50"
               />
             </div>
             <div className="flex flex-wrap items-center gap-3">
@@ -307,7 +307,7 @@ export default function Palace() {
                 que al evocarlo, o parecen dos etiquetas distintas. */}
             <div className="font-mono text-lg tracking-[0.2em] text-vi">{it.locus}</div>
             <div className="h-px w-24 bg-line" />
-            <div className="font-mono text-5xl font-bold text-slate-100 sm:text-6xl">{it.item}</div>
+            <div className="font-mono text-5xl font-bold text-ink sm:text-6xl">{it.item}</div>
             {it.pista && <div className="font-mono text-sm text-mute">{it.pista}</div>}
           </div>
         </div>
@@ -351,7 +351,7 @@ export default function Palace() {
             autoCapitalize="off"
             enterKeyHint="done"
             className={cx(
-              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
+              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-ink transition-colors placeholder:text-ink-4',
               feedback === 'ok' ? 'border-gr/70 glow-gr'
                 : feedback === 'fail' ? 'border-rd/70 glow-rd'
                   : 'border-line focus:border-am/60',
@@ -359,7 +359,7 @@ export default function Palace() {
           />
           {feedback === 'fail' && (
             <div className="anim-in font-mono text-sm text-rd">
-              era → <b className="text-slate-200">{it.clave}</b>
+              era → <b className="text-ink">{it.clave}</b>
             </div>
           )}
         </div>
@@ -415,7 +415,7 @@ export default function Palace() {
                     <XCircle size={13} className="shrink-0 text-rd" />
                     <span className="text-vi">{f.locus}</span>
                     <span className="text-mute">→</span>
-                    <span className="text-slate-300">{f.esperado}</span>
+                    <span className="text-ink-2">{f.esperado}</span>
                     {f.dado && <span className="ml-auto truncate text-rd/70 line-through">{f.dado}</span>}
                   </div>
                 ))}
@@ -442,7 +442,7 @@ export default function Palace() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 7 · <span className="text-vi">Palacio de la memoria</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
@@ -484,11 +484,11 @@ export default function Palace() {
                         key={p.id}
                         className={cx(
                           'group relative flex items-center gap-3 rounded-xl border px-4 py-3 transition-all',
-                          activo ? 'border-vi/60 bg-vi/8' : 'border-line hover:border-slate-600',
+                          activo ? 'border-vi/60 bg-vi/8' : 'border-line hover:border-ink-4',
                         )}
                       >
                         <button type="button" onClick={() => setPalacioId(p.id)} className="min-w-0 flex-1 text-left">
-                          <span className="block truncate text-sm font-medium text-slate-200">{p.nombre}</span>
+                          <span className="block truncate text-sm font-medium text-ink">{p.nombre}</span>
                           <span className="block font-mono text-[10px] text-mute">{p.loci.length} puntos</span>
                         </button>
                         <button type="button" onClick={() => abrirEditor(p)} className="rounded p-1 text-mute hover:text-cy">
@@ -525,7 +525,7 @@ export default function Palace() {
                     onChange={(e) => setPropia(e.target.value)}
                     rows={5}
                     placeholder="Un elemento por línea o separados por comas..."
-                    className="mt-3 w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-slate-300 placeholder:text-slate-700 focus:border-vi/50"
+                    className="mt-3 w-full rounded-xl border border-line bg-ink-950/60 p-3 font-mono text-xs text-ink-2 placeholder:text-ink-4 focus:border-vi/50"
                   />
                 )}
                 <p className="mt-2 text-xs text-mute">

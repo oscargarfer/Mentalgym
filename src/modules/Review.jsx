@@ -194,7 +194,7 @@ export default function Review() {
             autoCapitalize="off"
             enterKeyHint="done"
             className={cx(
-              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
+              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-ink transition-colors placeholder:text-ink-4',
               feedback === 'ok'
                 ? 'border-gr/70 glow-gr'
                 : feedback === 'fail'
@@ -204,7 +204,7 @@ export default function Review() {
           />
           {feedback === 'fail' && (
             <div className="anim-in font-mono text-sm text-rd">
-              era → <b className="text-slate-200">{f.m}</b>
+              era → <b className="text-ink">{f.m}</b>
             </div>
           )}
         </div>
@@ -285,7 +285,7 @@ export default function Review() {
                     <XCircle size={13} className="shrink-0 text-rd" />
                     <span className="text-cy">{f.w}</span>
                     <span className="text-mute">→</span>
-                    <span className="text-slate-300">{f.m}</span>
+                    <span className="text-ink-2">{f.m}</span>
                   </div>
                 ))}
               </div>
@@ -310,7 +310,7 @@ export default function Review() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 4 · <span className="text-gr">Repaso espaciado</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">

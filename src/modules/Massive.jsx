@@ -327,7 +327,7 @@ export default function Massive() {
             </div>
             {it.r && <div className="font-mono text-base text-mute">{it.r}</div>}
             <div className="h-px w-24 bg-line" />
-            <div className="text-3xl font-semibold tracking-tight text-slate-100 sm:text-5xl">
+            <div className="text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
               {it.m}
             </div>
           </div>
@@ -383,7 +383,7 @@ export default function Massive() {
                     <span className="font-mono text-[9px] text-mute">{i + 1}</span>
                   </div>
                   {it.r && <div className="truncate font-mono text-[10px] text-mute">{it.r}</div>}
-                  <div className="mt-1 truncate text-[13px] text-slate-200">{it.m}</div>
+                  <div className="mt-1 truncate text-[13px] text-ink">{it.m}</div>
                 </div>
               )
             })}
@@ -442,7 +442,7 @@ export default function Massive() {
           </Badge>
           <div className="flex items-center gap-4 font-mono text-[11px] text-mute">
             <span>ACIERTOS <b className="text-gr">{okCount}</b></span>
-            <LiveClock from={testStart.current} className="text-slate-300" />
+            <LiveClock from={testStart.current} className="text-ink-2" />
           </div>
         </div>
         <div className="px-6 pt-3">
@@ -475,7 +475,7 @@ export default function Massive() {
             autoCapitalize="off"
             enterKeyHint="done"
             className={cx(
-              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-slate-100 transition-colors placeholder:text-slate-700',
+              'w-full max-w-xl rounded-xl border bg-ink-900/60 px-5 py-4 text-center font-mono text-2xl text-ink transition-colors placeholder:text-ink-4',
               feedback === 'ok'
                 ? 'border-gr/70 glow-gr'
                 : feedback === 'fail'
@@ -485,7 +485,7 @@ export default function Massive() {
           />
           {feedback === 'fail' && (
             <div className="anim-in font-mono text-sm text-rd">
-              era → <b className="text-slate-200">{expected}</b>
+              era → <b className="text-ink">{expected}</b>
             </div>
           )}
         </div>
@@ -594,7 +594,7 @@ export default function Massive() {
                     <XCircle size={13} className="shrink-0 text-rd" />
                     <span style={{ color: deck.accent }}>{f.w}</span>
                     <span className="text-mute">→</span>
-                    <span className="text-slate-300">{f.m}</span>
+                    <span className="text-ink-2">{f.m}</span>
                     {f.given && (
                       <span className="ml-auto truncate text-rd/70 line-through">{f.given}</span>
                     )}
@@ -625,7 +625,7 @@ export default function Massive() {
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <div className="mx-auto w-full max-w-3xl px-6 py-8">
         <div className="mb-6">
-          <h1 className="font-mono text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
             Módulo 2 · <span className="text-cy">Memorización Masiva</span>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
