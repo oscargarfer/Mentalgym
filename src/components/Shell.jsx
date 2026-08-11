@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useApp } from '../state/AppContext.jsx'
 import { useEvitarSuspension } from '../lib/tactil.js'
+import Marca from './Marca.jsx'
 import { cx } from './ui.jsx'
 
 /**
@@ -105,13 +106,18 @@ export default function Shell({ view, setView, children }) {
       {/* ---------- Barra lateral ---------- */}
       <aside className="flex w-[62px] shrink-0 flex-col border-r border-rule bg-paper lg:w-[232px]">
         <div className="border-b border-rule px-4 py-4 lg:px-5">
-          <div className="hidden lg:block">
-            <div className="font-serif text-[19px] font-semibold leading-none tracking-[-0.01em] text-ink">
-              Gimnasio Mental
+          <div className="hidden items-center gap-2.5 lg:flex">
+            <Marca size={27} className="shrink-0 text-ink" />
+            <div className="min-w-0">
+              <div className="font-serif text-[19px] font-semibold leading-none tracking-[-0.01em] text-ink">
+                Gimnasio Mental
+              </div>
+              <div className="mt-1 text-[11px] text-ink-3">Cuaderno de entrenamiento</div>
             </div>
-            <div className="mt-1 text-[11px] text-ink-3">Cuaderno de entrenamiento</div>
           </div>
-          <div className="font-serif text-[19px] font-semibold text-ink lg:hidden">GM</div>
+          {/* Plegada, la marca sustituye a las iniciales: es lo que sigue
+              identificando la aplicación cuando no cabe el nombre. */}
+          <Marca size={26} className="mx-auto block text-ink lg:hidden" />
         </div>
 
         <nav className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-4">

@@ -165,81 +165,56 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {!sessions.length ? (
-          /* Sin datos, la pantalla no debe ser un recuadro enorme y vacío: es el
-             momento de decir por dónde se empieza. */
-          <div className="border-t border-rule pt-5">
-            <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">
-              Todavía no has entrenado. En cuanto completes un bloque, aquí verás el estado de
-              tus cuatro capacidades y cómo evolucionan.
-            </p>
-            <div className="mt-5 grid gap-px border border-rule bg-rule sm:grid-cols-2">
-              {NAV.filter((n) => n.cap).slice(0, 4).map((n) => (
-                <button
-                  key={n.id}
-                  type="button"
-                  onClick={() => pulsar(n.key)}
-                  className="flex items-baseline gap-3 bg-paper px-4 py-3 text-left transition-colors hover:bg-surface-2"
-                >
-                  <span className="num text-[11px] text-ink-3">{n.key.padStart(2, '0')}</span>
-                  <span className="min-w-0">
-                    <span className="block text-[14px] font-semibold text-ink">{n.label}</span>
-                    <span className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-ink-3">
-                      <i
-                        className={cx(
-                          'inline-block h-[7px] w-[7px] shrink-0',
-                          { aso: 'bg-aso', ord: 'bg-ord', ret: 'bg-ret', pro: 'bg-pro' }[n.cap],
-                        )}
-                      />
-                      {CAPACIDADES[n.cap].nombre} · {n.desc}
-                    </span>
-                  </span>
-                </button>
-              ))}
+        {/* Repasos pendientes: la deuda de retención, siempre visible */}
+        {sessions.length > 0 && resumenRepaso.total > 0 && (
+          <Panel className={cx('mb-3', resumenRepaso.pendientes > 0 && 'border-am/40')}>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <CalendarClock
+                  size={18}
+                  className={resumenRepaso.pendientes ? 'text-am' : 'text-gr'}
+                />
+                <div>
+                  <div className="text-[14px] font-semibold text-ink">
+                    {resumenRepaso.pendientes
+                      ? `${resumenRepaso.pendientes} palabras esperando repaso`
+                      : 'Repaso al día'}
+                  </div>
+                  <div className="mt-0.5 text-[11.5px] text-ink-3">
+                    {resumenRepaso.total} en seguimiento · {resumenRepaso.consolidadas}{' '}
+                    consolidadas
+                    {resumenRepaso.proximo && !resumenRepaso.pendientes
+                      ? ` · vuelve el ${fmtDateTime(resumenRepaso.proximo)}`
+                      : ''}
+                  </div>
+                </div>
+              </div>
+              <Badge tone={resumenRepaso.pendientes ? 'am' : 'gr'}>TECLA 6 · REPASO</Badge>
             </div>
-            <p className="mt-3 text-[12.5px] text-ink-3">
-              Si es tu primer día, empieza por Calentamiento. La guía completa está en Método
-              (tecla 8).
-            </p>
-          </div>
+          </Panel>
+        )}
+
+        {/* Las cuatro capacidades encabezan el registro, haya datos o no: son el
+            marco de la aplicación. Sin sesiones salen a cero, y eso ya informa
+            —dice qué se va a medir y por dónde entrar—; poner en su lugar una
+            lista de ejercicios devolvía la aplicación al marco anterior. */}
+        {!sessions.length && (
+          <p className="mb-5 max-w-[58ch] text-[15px] leading-relaxed text-ink-2">
+            Todavía no has entrenado. El gimnasio trabaja estas cuatro capacidades; cada una se
+            llena en cuanto completas un bloque de los ejercicios que la entrenan.
+          </p>
+        )}
+
+        <Capacidades kpi={kpi} sessions={sessions} />
+
+        {!sessions.length ? (
+          <p className="mt-4 text-[13px] leading-relaxed text-ink-3">
+            Si es tu primer día, empieza por <b className="font-semibold text-ink-2">Calentamiento
+            </b> (tecla 2): es el más corto y el que pone en marcha la asociación, de la que
+            dependen las otras tres. La guía completa está en Método (tecla 8).
+          </p>
         ) : (
           <>
-            {/* Repasos pendientes: la deuda de retención, siempre visible */}
-            {resumenRepaso.total > 0 && (
-              <Panel
-                className={cx('mb-3', resumenRepaso.pendientes > 0 && 'border-am/40')}
-              >
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <CalendarClock
-                      size={18}
-                      className={resumenRepaso.pendientes ? 'text-am' : 'text-gr'}
-                    />
-                    <div>
-                      <div className="font-mono text-sm font-bold text-ink">
-                        {resumenRepaso.pendientes
-                          ? `${resumenRepaso.pendientes} palabras esperando repaso`
-                          : 'Repaso al día'}
-                      </div>
-                      <div className="mt-0.5 font-mono text-[11px] text-mute">
-                        {resumenRepaso.total} en seguimiento ·{' '}
-                        {resumenRepaso.consolidadas} consolidadas
-                        {resumenRepaso.proximo && !resumenRepaso.pendientes
-                          ? ` · vuelve el ${fmtDateTime(resumenRepaso.proximo)}`
-                          : ''}
-                      </div>
-                    </div>
-                  </div>
-                  <Badge tone={resumenRepaso.pendientes ? 'am' : 'gr'}>
-                    TECLA 4 · REPASO
-                  </Badge>
-                </div>
-              </Panel>
-            )}
-
-            {/* Las cuatro capacidades */}
-            <Capacidades kpi={kpi} sessions={sessions} />
-
             <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <Stat
                 label={loteActivo ? `VRN récord (lotes de ${loteActivo})` : 'VRN récord'}
@@ -550,10 +525,14 @@ function Capacidades({ kpi, sessions }) {
     ? (ultimoPalacio.intacta / ultimoPalacio.total) * 100
     : null
 
+  // Los ejercicios de cada capacidad salen de NAV, no de una lista aparte: si
+  // mañana cambia una tecla o se añade un módulo, esto se entera solo.
+  const ejerciciosDe = (cap) => NAV.filter((n) => n.cap === cap)
+
   const filas = [
     {
       n: '01',
-      nombre: 'Asociar',
+      cap: 'aso',
       color: 'bg-aso',
       valor: kpi.bestReaction != null ? (kpi.bestReaction / 1000).toFixed(2).replace('.', ',') : '--',
       unidad: 's',
@@ -566,7 +545,7 @@ function Capacidades({ kpi, sessions }) {
     },
     {
       n: '02',
-      nombre: 'Ordenar',
+      cap: 'ord',
       color: 'bg-ord',
       valor: ultimoPalacio ? ultimoPalacio.intacta : '--',
       unidad: ultimoPalacio ? `/${ultimoPalacio.total}` : '',
@@ -577,7 +556,7 @@ function Capacidades({ kpi, sessions }) {
     },
     {
       n: '03',
-      nombre: 'Retener',
+      cap: 'ret',
       color: 'bg-ret',
       valor: kpi.retencionUlt ?? '--',
       unidad: '%',
@@ -589,7 +568,7 @@ function Capacidades({ kpi, sessions }) {
     },
     {
       n: '04',
-      nombre: 'Procesar',
+      cap: 'pro',
       color: 'bg-pro',
       valor: kpi.maxPpm ?? '--',
       unidad: 'ppm',
@@ -601,30 +580,58 @@ function Capacidades({ kpi, sessions }) {
 
   return (
     <div className="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
-      {filas.map((f, i) => (
-        <div
-          key={f.n}
-          className={cx(
-            'relative border-b border-rule bg-paper px-4 pb-4 pt-3.5',
-            i < filas.length - 1 && 'lg:border-r',
-            i % 2 === 0 && 'sm:border-r lg:border-r',
-          )}
-        >
-          <span className={cx('absolute inset-x-0 top-0 h-[2px]', f.color)} />
-          <div className="num text-[10.5px] text-ink-3">CAPACIDAD {f.n}</div>
-          <h3 className="mt-0.5 text-[13px] font-bold uppercase tracking-[0.02em] text-ink">
-            {f.nombre}
-          </h3>
-          <div className="mt-3 flex items-baseline gap-1">
-            <span className="cifra text-[36px] leading-none text-ink">{f.valor}</span>
-            {f.unidad && <span className="text-[13px] text-ink-3">{f.unidad}</span>}
+      {filas.map((f, i) => {
+        const c = CAPACIDADES[f.cap]
+        return (
+          <div
+            key={f.n}
+            className={cx(
+              'relative flex flex-col border-b border-rule bg-paper px-4 pb-3 pt-3.5',
+              i < filas.length - 1 && 'lg:border-r',
+              i % 2 === 0 && 'sm:border-r lg:border-r',
+            )}
+          >
+            <span className={cx('absolute inset-x-0 top-0 h-[2px]', f.color)} />
+            <div className="num text-[10.5px] text-ink-3">CAPACIDAD {f.n}</div>
+            <h3 className="mt-0.5 text-[13px] font-bold uppercase tracking-[0.02em] text-ink">
+              {c.nombre}
+            </h3>
+            {/* Qué es. Sin esta línea, «Ordenar» a cero no dice nada. */}
+            <p className="mt-1 text-[11.5px] leading-snug text-ink-4">{c.que}</p>
+            <div className="mt-3 flex items-baseline gap-1">
+              <span className="cifra text-[36px] leading-none text-ink">{f.valor}</span>
+              {f.unidad && <span className="text-[13px] text-ink-3">{f.unidad}</span>}
+            </div>
+            <div className="mt-1.5 text-[11.5px] leading-tight text-ink-3">{f.sub}</div>
+            <div className="mt-3 h-[3px] bg-rule">
+              <div
+                className={cx('h-full', f.color)}
+                style={{ width: `${Math.min(100, f.pct)}%` }}
+              />
+            </div>
+            {/* Por dónde se entrena. La capacidad sin su camino es un diagnóstico
+                sin tratamiento; y con el registro vacío, esta fila es la puerta. */}
+            <div className="mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-3">
+              {ejerciciosDe(f.cap).map((n) => (
+                <button
+                  key={n.id}
+                  type="button"
+                  onClick={() => pulsar(n.key)}
+                  title={`Ir a ${n.label} · ${n.desc} (tecla ${n.key})`}
+                  className="group flex items-baseline gap-1.5 text-left text-[11.5px] text-ink-3 transition-colors hover:text-ink"
+                >
+                  <span className="num text-[10.5px] text-ink-4 group-hover:text-ink-3">
+                    {n.key}
+                  </span>
+                  <span className="underline decoration-rule underline-offset-[3px] group-hover:decoration-ink-3">
+                    {n.label}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="mt-1.5 text-[11.5px] leading-tight text-ink-3">{f.sub}</div>
-          <div className="mt-3 h-[3px] bg-rule">
-            <div className={cx('h-full', f.color)} style={{ width: `${Math.min(100, f.pct)}%` }} />
-          </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
