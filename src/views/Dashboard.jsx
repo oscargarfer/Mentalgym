@@ -205,42 +205,16 @@ export default function Dashboard() {
               </Panel>
             )}
 
-            {/* KPIs */}
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <Stat
-                label="Retención a 24 h"
-                value={kpi.retencionUlt ?? '--'}
-                unit="%"
-                tone={
-                  kpi.retencionUlt == null ? 'cy'
-                    : kpi.retencionUlt >= 80 ? 'gr'
-                      : kpi.retencionUlt >= 60 ? 'am' : 'rd'
-                }
-                icon={Brain}
-                sub={
-                  kpi.retencionMedia != null
-                    ? `media histórica: ${round(kpi.retencionMedia, 1)} %`
-                    : 'aún sin primeros repasos'
-                }
-              />
+            {/* Las cuatro capacidades */}
+            <Capacidades kpi={kpi} sessions={sessions} />
+
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <Stat
                 label={loteActivo ? `VRN récord (lotes de ${loteActivo})` : 'VRN récord'}
                 value={kpi.bestVrn ?? '--'}
                 unit="pal/min"
                 icon={Gauge}
                 sub={kpi.lastVrn != null ? `última sesión: ${kpi.lastVrn}` : 'sin bloques aún'}
-              />
-              <Stat
-                label="Reacción mínima"
-                value={kpi.bestReaction != null ? Math.round(kpi.bestReaction) : '--'}
-                unit="ms"
-                tone="vi"
-                icon={Zap}
-                sub={
-                  kpi.lastReaction != null
-                    ? `última media: ${Math.round(kpi.lastReaction)} ms`
-                    : 'sin calentamientos'
-                }
               />
               <Stat
                 label="Racha"
@@ -522,6 +496,103 @@ export default function Dashboard() {
           </>
         )}
       </div>
+    </div>
+  )
+}
+
+/**
+ * Las cuatro capacidades, cada una con su medida principal.
+ *
+ * Es la cabecera del registro porque es el marco de la aplicación: no se mira
+ * el rendimiento de seis ejercicios sueltos, se mira el estado de cuatro
+ * facultades. Cada una tiene un objetivo declarado, y la barra dice cuánto
+ * falta para llegar; sin objetivo, un número suelto no informa de nada.
+ *
+ * El color va en el filete superior y el nombre siempre escrito al lado: el par
+ * asociar/ordenar queda cerca para visión deutan y el color no puede ir solo.
+ */
+function Capacidades({ kpi, sessions }) {
+  const palacios = sessions.filter((s) => s.module === 'palace')
+  const ultimoPalacio = palacios[palacios.length - 1]
+  const ordenPct = ultimoPalacio?.total
+    ? (ultimoPalacio.intacta / ultimoPalacio.total) * 100
+    : null
+
+  const filas = [
+    {
+      n: '01',
+      nombre: 'Asociar',
+      color: 'bg-aso',
+      valor: kpi.bestReaction != null ? (kpi.bestReaction / 1000).toFixed(2).replace('.', ',') : '--',
+      unidad: 's',
+      sub:
+        kpi.lastReaction != null
+          ? `por imagen · última ${(kpi.lastReaction / 1000).toFixed(2).replace('.', ',')}`
+          : 'sin calentamientos aún',
+      // Objetivo 1,5 s por imagen: menos es mejor, así que la barra se invierte.
+      pct: kpi.bestReaction != null ? Math.min(100, (1500 / kpi.bestReaction) * 100) : 0,
+    },
+    {
+      n: '02',
+      nombre: 'Ordenar',
+      color: 'bg-ord',
+      valor: ultimoPalacio ? ultimoPalacio.intacta : '--',
+      unidad: ultimoPalacio ? `/${ultimoPalacio.total}` : '',
+      sub: ultimoPalacio
+        ? `secuencia intacta · ${ultimoPalacio.sentido === 'inverso' ? 'recorrido inverso' : 'recorrido directo'}`
+        : 'sin recorridos aún',
+      pct: ordenPct ?? 0,
+    },
+    {
+      n: '03',
+      nombre: 'Retener',
+      color: 'bg-ret',
+      valor: kpi.retencionUlt ?? '--',
+      unidad: '%',
+      sub:
+        kpi.retencionMedia != null
+          ? `a las 24 horas · media ${round(kpi.retencionMedia, 1)} %`
+          : 'aún sin primeros repasos',
+      pct: kpi.retencionUlt ?? 0,
+    },
+    {
+      n: '04',
+      nombre: 'Procesar',
+      color: 'bg-pro',
+      valor: kpi.maxPpm ?? '--',
+      unidad: 'ppm',
+      sub: kpi.maxPpm != null ? 'máximo con ráfaga validada' : 'sin ráfagas validadas',
+      // 900 ppm es el techo del módulo, no un límite de la lectura humana.
+      pct: kpi.maxPpm != null ? Math.min(100, (kpi.maxPpm / 900) * 100) : 0,
+    },
+  ]
+
+  return (
+    <div className="grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">
+      {filas.map((f, i) => (
+        <div
+          key={f.n}
+          className={cx(
+            'relative border-b border-rule bg-paper px-4 pb-4 pt-3.5',
+            i < filas.length - 1 && 'lg:border-r',
+            i % 2 === 0 && 'sm:border-r lg:border-r',
+          )}
+        >
+          <span className={cx('absolute inset-x-0 top-0 h-[2px]', f.color)} />
+          <div className="num text-[10.5px] text-ink-3">CAPACIDAD {f.n}</div>
+          <h3 className="mt-0.5 text-[13px] font-bold uppercase tracking-[0.02em] text-ink">
+            {f.nombre}
+          </h3>
+          <div className="mt-3 flex items-baseline gap-1">
+            <span className="cifra text-[36px] leading-none text-ink">{f.valor}</span>
+            {f.unidad && <span className="text-[13px] text-ink-3">{f.unidad}</span>}
+          </div>
+          <div className="mt-1.5 text-[11.5px] leading-tight text-ink-3">{f.sub}</div>
+          <div className="mt-3 h-[3px] bg-rule">
+            <div className={cx('h-full', f.color)} style={{ width: `${Math.min(100, f.pct)}%` }} />
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
