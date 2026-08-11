@@ -19,14 +19,19 @@ export const CAPACIDADES = {
   pro: { nombre: 'Procesar', color: 'pro', que: 'reconocer más rápido' },
 }
 
+/**
+ * El número que se ve ES la tecla. Antes la barra numeraba por posición y los
+ * atajos habían quedado del orden anterior: ponía «04 Números» y para ir a
+ * Números había que pulsar 6. Un número que no es la tecla no informa, engaña.
+ */
 export const NAV = [
   { id: 'dashboard', label: 'Registro', key: '1', grupo: 'seguimiento', desc: 'Capacidad y evolución' },
   { id: 'warmup', label: 'Calentamiento', key: '2', cap: 'aso', desc: 'Asociación flash' },
   { id: 'massive', label: 'Memorización', key: '3', cap: 'aso', desc: 'Bloque masivo a contrarreloj' },
-  { id: 'numbers', label: 'Números', key: '6', cap: 'aso', desc: 'Casillero, binario y baraja' },
-  { id: 'palace', label: 'Palacio', key: '7', cap: 'ord', desc: 'Recorrido y evocación ordenada' },
-  { id: 'review', label: 'Repaso', key: '4', cap: 'ret', desc: 'Retentiva a largo plazo' },
-  { id: 'rsvp', label: 'Taquistoscopio', key: '5', cap: 'pro', desc: 'Reconocimiento visual' },
+  { id: 'numbers', label: 'Números', key: '4', cap: 'aso', desc: 'Casillero, binario y baraja' },
+  { id: 'palace', label: 'Palacio', key: '5', cap: 'ord', desc: 'Recorrido y evocación ordenada' },
+  { id: 'review', label: 'Repaso', key: '6', cap: 'ret', desc: 'Retentiva a largo plazo' },
+  { id: 'rsvp', label: 'Taquistoscopio', key: '7', cap: 'pro', desc: 'Reconocimiento visual' },
   { id: 'method', label: 'Método', key: '8', grupo: 'preparar', desc: 'Cómo se entrena' },
   { id: 'settings', label: 'Ajustes', key: '9', grupo: 'preparar', desc: 'Material y datos' },
 ]
@@ -53,7 +58,7 @@ export default function Shell({ view, setView, children }) {
   const seguimiento = NAV.filter((n) => n.grupo === 'seguimiento')
   const preparar = NAV.filter((n) => n.grupo === 'preparar')
 
-  const Boton = (item, n) => {
+  const Boton = (item) => {
     const activo = view === item.id
     const cap = item.cap ? CAPACIDADES[item.cap] : null
     return (
@@ -71,7 +76,7 @@ export default function Shell({ view, setView, children }) {
         )}
       >
         <span className="num w-5 shrink-0 text-[11px] text-ink-3">
-          {String(n).padStart(2, '0')}
+          {item.key.padStart(2, '0')}
         </span>
         <span className="hidden min-w-0 flex-1 lg:block">
           <span className="block truncate text-[13.5px] leading-tight">{item.label}</span>
@@ -110,11 +115,11 @@ export default function Shell({ view, setView, children }) {
         </div>
 
         <nav className="flex min-h-0 flex-1 flex-col overflow-y-auto pb-4">
-          {seguimiento.map((it, i) => Boton(it, i + 1))}
+          {seguimiento.map((it) => Boton(it))}
           <Seccion>Entrenar</Seccion>
-          {entrenar.map((it, i) => Boton(it, i + 2))}
+          {entrenar.map((it) => Boton(it))}
           <Seccion>Preparar</Seccion>
-          {preparar.map((it, i) => Boton(it, i + entrenar.length + 2))}
+          {preparar.map((it) => Boton(it))}
         </nav>
 
         <div className="hidden border-t border-rule px-5 py-3.5 lg:block">

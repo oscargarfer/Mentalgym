@@ -105,7 +105,7 @@ const EJERCICIOS = [
     nota: 'La dirección ES → idioma es bastante más dura: no basta reconocer, hay que producir. Déjala para cuando la directa te salga cómoda.',
   },
   {
-    tecla: '4',
+    tecla: '6',
     cap: 'ret',
     nombre: 'Repaso espaciado',
     icono: CalendarClock,
@@ -130,7 +130,7 @@ const EJERCICIOS = [
     nota: 'Un fallo devuelve la palabra al principio del calendario. No es un castigo: es que si la has olvidado, necesita volver a empezar.',
   },
   {
-    tecla: '5',
+    tecla: '7',
     cap: 'pro',
     nombre: 'Taquistoscopio (RSVP)',
     icono: Eye,
@@ -155,7 +155,7 @@ const EJERCICIOS = [
     nota: 'Las comprobaciones siempre son una que sí apareció y otra que no. Responder siempre lo mismo no te va a colar.',
   },
   {
-    tecla: '6',
+    tecla: '4',
     cap: 'aso',
     nombre: 'Números y casillero',
     icono: Hash,
@@ -185,7 +185,7 @@ const EJERCICIOS = [
     nota: 'Las 100 palabras son editables en Ajustes (tecla 9). Cámbialas por las que TE evoquen algo: un casillero ajeno funciona mal.',
   },
   {
-    tecla: '7',
+    tecla: '5',
     cap: 'ord',
     nombre: 'Palacio de la memoria',
     icono: Landmark,
@@ -235,13 +235,13 @@ const CAPACIDADES = [
 ]
 
 const SHORTCUTS = [
-  { keys: ['1'], desc: 'Dashboard de métricas' },
+  { keys: ['1'], desc: 'Registro: estado de las cuatro capacidades' },
   { keys: ['2'], desc: 'Calentamiento de asociación flash' },
   { keys: ['3'], desc: 'Memorización masiva' },
-  { keys: ['4'], desc: 'Repaso espaciado' },
-  { keys: ['5'], desc: 'Taquistoscopio / RSVP' },
-  { keys: ['6'], desc: 'Números y casillero' },
-  { keys: ['7'], desc: 'Palacio de la memoria' },
+  { keys: ['4'], desc: 'Números y casillero' },
+  { keys: ['5'], desc: 'Palacio de la memoria' },
+  { keys: ['6'], desc: 'Repaso espaciado' },
+  { keys: ['7'], desc: 'Taquistoscopio / RSVP' },
   { keys: ['8'], desc: 'Esta guía' },
   { keys: ['9'], desc: 'Ajustes: idioma, mazos, casillero, repaso, datos' },
   { keys: ['ENTER'], desc: 'Iniciar bloque / confirmar respuesta' },

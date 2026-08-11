@@ -8,6 +8,8 @@ import {
   CalendarClock, Brain, Hash, Landmark,
 } from 'lucide-react'
 import { useApp } from '../state/AppContext.jsx'
+import { NAV, CAPACIDADES } from '../components/Shell.jsx'
+import { pulsar } from '../lib/tactil.js'
 import { fmtDate, fmtDateTime, fmtClock, round, mean, downloadJSON } from '../lib/utils.js'
 import { Panel, Stat, SectionTitle, Badge, Btn, EmptyState, cx } from '../components/ui.jsx'
 
@@ -135,12 +137,14 @@ export default function Dashboard() {
         {/* Cabecera */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-mono text-2xl font-bold tracking-tight text-ink">
-              Panel de <span className="text-cy">alto rendimiento</span>
+            {/* Serif y una sola tinta. El monoespaciado a dos colores era del
+                diseño anterior y hacía que el encabezado pareciera una consola. */}
+            <h1 className="font-serif text-[30px] font-semibold leading-none tracking-[-0.015em] text-ink">
+              Registro
             </h1>
-            <p className="mt-1 text-sm text-mute">
-              Idioma activo: <b className="text-ink-2">{deck.name}</b> · {sessions.length}{' '}
-              sesiones registradas
+            <p className="mt-1.5 text-[13px] text-ink-3">
+              Material: <b className="font-semibold text-ink-2">{deck.name}</b> ·{' '}
+              {sessions.length} {sessions.length === 1 ? 'sesión' : 'sesiones'}
             </p>
           </div>
           <div className="flex gap-2">
@@ -162,14 +166,42 @@ export default function Dashboard() {
         </div>
 
         {!sessions.length ? (
-          <Panel>
-            <EmptyState icon={Activity} title="Sin datos todavía">
-              Completa un bloque en cualquier módulo y aquí aparecerán tus curvas de VRN, tiempo de
-              reacción y velocidad de procesamiento visual. Pulsa{' '}
-              <b className="text-cy">2</b>, <b className="text-cy">3</b> o{' '}
-              <b className="text-cy">4</b> para empezar.
-            </EmptyState>
-          </Panel>
+          /* Sin datos, la pantalla no debe ser un recuadro enorme y vacío: es el
+             momento de decir por dónde se empieza. */
+          <div className="border-t border-rule pt-5">
+            <p className="max-w-[52ch] text-[15px] leading-relaxed text-ink-2">
+              Todavía no has entrenado. En cuanto completes un bloque, aquí verás el estado de
+              tus cuatro capacidades y cómo evolucionan.
+            </p>
+            <div className="mt-5 grid gap-px border border-rule bg-rule sm:grid-cols-2">
+              {NAV.filter((n) => n.cap).slice(0, 4).map((n) => (
+                <button
+                  key={n.id}
+                  type="button"
+                  onClick={() => pulsar(n.key)}
+                  className="flex items-baseline gap-3 bg-paper px-4 py-3 text-left transition-colors hover:bg-surface-2"
+                >
+                  <span className="num text-[11px] text-ink-3">{n.key.padStart(2, '0')}</span>
+                  <span className="min-w-0">
+                    <span className="block text-[14px] font-semibold text-ink">{n.label}</span>
+                    <span className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-ink-3">
+                      <i
+                        className={cx(
+                          'inline-block h-[7px] w-[7px] shrink-0',
+                          { aso: 'bg-aso', ord: 'bg-ord', ret: 'bg-ret', pro: 'bg-pro' }[n.cap],
+                        )}
+                      />
+                      {CAPACIDADES[n.cap].nombre} · {n.desc}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-[12.5px] text-ink-3">
+              Si es tu primer día, empieza por Calentamiento. La guía completa está en Método
+              (tecla 8).
+            </p>
+          </div>
         ) : (
           <>
             {/* Repasos pendientes: la deuda de retención, siempre visible */}
