@@ -12,6 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "entrenar": "node scripts/launch.mjs",
+    "respaldo": "node scripts/respaldo.mjs",
     "vocab": "node scripts/sync-vocab.mjs",
     "icono": "node scripts/make-icon.mjs",
     "app": "vite build && electron .",
