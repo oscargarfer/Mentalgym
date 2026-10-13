@@ -1,5 +1,11 @@
 # Registro de cambios
 
+## 1.2.1 — 2026-10-13
+
+Sin cambios en la aplicación respecto a la 1.2.0. La compilación de la 1.2.0
+se paró en una prueba que corría en Linux y que nunca había llegado a pasar
+allí; ahora corre en Windows, que es la plataforma del instalador.
+
 ## 1.2.0 — 2026-10-13
 
 La aplicación deja de presentarse como un entrenador de idiomas: entrena cuatro

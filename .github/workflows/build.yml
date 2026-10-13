@@ -30,15 +30,6 @@ jobs:
         run: node scripts/probar-empaquetado.mjs
       - name: Compilar la interfaz
         run: npm run build
-      # Aqui si se puede arrancar Electron de verdad, con pantalla virtual: se
-      # comprueba que los seis diccionarios y el panel de metricas cargan a
-      # traves del esquema app://, que es lo unico que no se puede verificar
-      # leyendo el codigo.
-      - name: Arrancar la app de escritorio
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2t64
-          xvfb-run -a npx electron scripts/probar-electron.mjs
 
   windows:
     name: Windows (.exe)
@@ -52,6 +43,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # Se arranca Electron de verdad y se comprueba que los seis diccionarios
+      # y el panel de metricas cargan por el esquema app://, que es lo unico
+      # que no se puede verificar leyendo el codigo. Va aqui y no en Linux:
+      # es la plataforma del instalador, y en el Linux de GitHub esta prueba
+      # no llego a pasar nunca.
+      - name: Arrancar la app de escritorio
+        run: npx electron scripts/probar-electron.mjs
       - name: Instalador NSIS
         run: npx electron-builder --win --publish never
       - uses: actions/upload-artifact@v4

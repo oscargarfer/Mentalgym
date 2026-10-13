@@ -2,7 +2,7 @@
   "name": "gimnasio-mental",
   "productName": "Gimnasio Mental",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Gimnasio de Atletas Mentales y Alto Rendimiento Cognitivo - velocidad, asociacion y lectura",
   "type": "module",
   "main": "electron/main.js",
