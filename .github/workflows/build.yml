@@ -5,6 +5,9 @@ name: Instaladores
 on:
   push:
     tags: ['v*']
+    # Una rama ci/... compila los tres paquetes sin publicar nada: sirve para
+    # probar un cambio en este flujo sin gastar un numero de version.
+    branches: ['ci/**']
   workflow_dispatch:
 
 permissions:
@@ -49,9 +52,25 @@ jobs:
       # es la plataforma del instalador, y en el Linux de GitHub esta prueba
       # no llego a pasar nunca.
       - name: Arrancar la app de escritorio
-        run: npx electron scripts/probar-electron.mjs
+        # Si falla, la salida se repite como anotacion: las anotaciones se leen
+        # por la API publica, el registro completo exige iniciar sesion.
+        shell: bash
+        run: |
+          set -o pipefail
+          npx electron scripts/probar-electron.mjs 2>&1 | tee salida.txt || {
+            echo "::error title=Arrancar la app::$(tail -n 40 salida.txt | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          }
       - name: Instalador NSIS
-        run: npx electron-builder --win --publish never
+        # Si falla, la salida se repite como anotacion: las anotaciones se leen
+        # por la API publica, el registro completo exige iniciar sesion.
+        shell: bash
+        run: |
+          set -o pipefail
+          npx electron-builder --win --publish never 2>&1 | tee salida.txt || {
+            echo "::error title=Instalador NSIS::$(tail -n 40 salida.txt | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: windows
@@ -73,7 +92,15 @@ jobs:
       # El .deb necesita fpm, que no funciona en Windows: esta es la razon de
       # compilar aqui y no en el portatil.
       - name: Paquete Debian
-        run: npx electron-builder --linux --publish never
+        # Si falla, la salida se repite como anotacion: las anotaciones se leen
+        # por la API publica, el registro completo exige iniciar sesion.
+        shell: bash
+        run: |
+          set -o pipefail
+          npx electron-builder --linux --publish never 2>&1 | tee salida.txt || {
+            echo "::error title=Paquete Debian::$(tail -n 40 salida.txt | awk '{printf "%s%%0A", $0}')"
+            exit 1
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: linux
@@ -94,7 +121,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: android-actions/setup-android@v3
+      # Sin setup-android: la imagen de GitHub ya trae el SDK con ANDROID_HOME
+      # puesto, y la accion fallaba al instalarlo otra vez.
       - run: npm ci
       - run: npm run build
       - name: Copiar la app al proyecto nativo
@@ -156,7 +184,9 @@ jobs:
   publicar:
     name: Publicar version
     needs: [windows, linux, android]
-    if: startsWith(github.ref, 'refs/tags/v')
+    # Basta con que salga el de Windows: un fallo en el .deb o en el APK no
+    # tiene por que dejar sin instalador a quien solo usa Windows.
+    if: always() && startsWith(github.ref, 'refs/tags/v') && needs.windows.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
