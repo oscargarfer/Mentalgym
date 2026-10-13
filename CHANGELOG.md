@@ -1,5 +1,28 @@
 # Registro de cambios
 
+## 1.2.0 — 2026-10-13
+
+La aplicación deja de presentarse como un entrenador de idiomas: entrena cuatro
+capacidades —asociar, ordenar, retener y procesar— y el vocabulario es solo uno
+de los materiales.
+
+- El Registro abre con las cuatro capacidades, también sin historial, y cada
+  una enlaza con los ejercicios que la entrenan.
+- Teclas 1–9 en orden de barra lateral; la cifra junto a cada entrada es su
+  atajo.
+- Diseño nuevo: tinta sobre papel, serif para los títulos y pantalla de
+  ejercicio en negro. Marca propia: un cerebro sobre una pesa.
+- Vocabulario ordenado por frecuencia real de uso y podado de rarezas, nombres
+  propios y muletillas.
+- `npm run respaldo`: copia verificada del proyecto fuera de su carpeta.
+
+### Correcciones
+
+- **«Exportar» y «Exportar todo» dejaban fuera las fichas de repaso, los
+  palacios y el casillero numérico.** Restaurar la copia en otro ordenador
+  devolvía las sesiones y perdía el resto sin avisar. Ahora la copia lleva todo
+  lo que «Restaurar copia» sabe leer.
+
 ## 1.1.0 — 2026-08-06
 
 Primera versión distribuible: la aplicación deja de depender del navegador y se

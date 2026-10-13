@@ -294,10 +294,18 @@ export function AppProvider({ children }) {
     if (Array.isArray(data.pegs)) setPegs(data.pegs)
   }, [])
 
+  // La copia lleva todo lo que `importData` sabe leer. Antes se dejaba fuera
+  // las fichas de repaso, los palacios y el casillero: restaurarla en otro
+  // ordenador devolvía las sesiones pero perdía el resto sin avisar.
+  const copiaCompleta = useCallback(
+    () => ({ exportedAt: new Date().toISOString(), settings, decks, sessions, reviews, palaces, pegs }),
+    [settings, decks, sessions, reviews, palaces, pegs],
+  )
+
   const value = useMemo(
     () => ({
       settings, update, decks, allDecks, deck,
-      addDeck, removeDeck, sessions, addSession, clearSessions, importData,
+      addDeck, removeDeck, sessions, addSession, clearSessions, importData, copiaCompleta,
       reviews, registrarLote, registrarRepaso, clearReviews, resumenRepaso,
       palaces, addPalace, updatePalace, removePalace,
       pegs, updatePeg, resetPegs,
@@ -305,7 +313,7 @@ export function AppProvider({ children }) {
     }),
     [
       settings, update, decks, allDecks, deck, addDeck, removeDeck,
-      sessions, addSession, clearSessions, importData,
+      sessions, addSession, clearSessions, importData, copiaCompleta,
       reviews, registrarLote, registrarRepaso, clearReviews, resumenRepaso,
       palaces, addPalace, updatePalace, removePalace,
       pegs, updatePeg, resetPegs, locked,

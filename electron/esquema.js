@@ -49,9 +49,15 @@ export function declararEsquema() {
   ])
 }
 
-/** Sirve `dist/` bajo `app://gimnasio/`. Se llama con la aplicación ya lista. */
-export function registrarEsquema() {
-  const raiz = join(app.getAppPath(), 'dist')
+/**
+ * Sirve `dist/` bajo `app://gimnasio/`. Se llama con la aplicación ya lista.
+ *
+ * La raíz se puede pasar porque `getAppPath()` es la carpeta del punto de
+ * entrada: en la app es la del proyecto, pero al arrancar Electron sobre
+ * `scripts/probar-electron.mjs` es `scripts/`, y la prueba buscaba
+ * `scripts/dist` y recibía 404 en todo.
+ */
+export function registrarEsquema(raiz = join(app.getAppPath(), 'dist')) {
 
   protocol.handle('app', async (peticion) => {
     const { pathname } = new URL(peticion.url)

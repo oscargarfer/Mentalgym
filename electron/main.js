@@ -30,7 +30,9 @@ function crearVentana() {
     autoHideMenuBar: true,
     show: false,
     title: 'Gimnasio Mental',
-    icon: join(app.getAppPath(), 'assets', 'gimnasio.ico'),
+    // `assets/` no entra en el paquete: instalada, la ventana toma el icono que
+    // el instalador graba en el .exe. Solo en desarrollo hay que dárselo.
+    icon: app.isPackaged ? undefined : join(app.getAppPath(), 'assets', 'gimnasio.ico'),
     webPreferences: {
       preload: join(import.meta.dirname, 'preload.cjs'),
       contextIsolation: true,

@@ -33,7 +33,7 @@ const salir = (codigo) => {
 }
 
 app.whenReady().then(async () => {
-  registrarEsquema()
+  registrarEsquema(join(RAIZ, 'dist'))
 
   // Mismos manejadores que monta `main.js`, contra la carpeta aislada.
   const carpeta = join(app.getPath('userData'), 'datos')
@@ -119,8 +119,14 @@ app.whenReady().then(async () => {
       // No se puede salir de dist/ pidiendo rutas con '..' codificado.
       let fuga = 'sin respuesta'
       try {
+        // Una ruta desconocida devuelve index.html con 200 (es una app de una
+        // sola página), así que el código no basta: fuga es recibir el
+        // package.json de verdad.
         const r = await fetch('${ORIGEN}/%2e%2e/package.json')
-        fuga = r.status === 200 ? 'FUGA: 200' : 'bloqueado (' + r.status + ')'
+        const cuerpo = await r.text()
+        fuga = r.status === 200 && cuerpo.includes('"productName"')
+          ? 'FUGA: package.json servido'
+          : 'bloqueado (' + r.status + (cuerpo.includes('<!doctype html') || cuerpo.includes('<!DOCTYPE html') ? ', index.html' : '') + ')'
       } catch (e) { fuga = 'bloqueado (excepcion)' }
 
       return {

@@ -22,7 +22,7 @@ goodbye,adiós`
 
 export default function Settings() {
   const {
-    settings, update, allDecks, deck, addDeck, removeDeck, sessions, decks, importData,
+    settings, update, allDecks, deck, addDeck, removeDeck, sessions, decks, importData, copiaCompleta,
     resumenRepaso, clearReviews, pegs, updatePeg, resetPegs,
   } = useApp()
 
@@ -391,11 +391,7 @@ export default function Settings() {
             <Btn
               tone="mute"
               onClick={() =>
-                downloadJSON(`gimnasio-mental-backup-${Date.now()}.json`, {
-                  settings,
-                  decks,
-                  sessions,
-                })
+                downloadJSON(`gimnasio-mental-${new Date().toISOString().slice(0, 10)}.json`, copiaCompleta())
               }
             >
               <Download size={11} className="mr-1 inline" /> Exportar todo

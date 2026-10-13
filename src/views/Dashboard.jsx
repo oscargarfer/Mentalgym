@@ -42,7 +42,7 @@ function streakDays(sessions) {
 }
 
 export default function Dashboard() {
-  const { sessions, clearSessions, settings, decks, deck, reviews, resumenRepaso } = useApp()
+  const { sessions, clearSessions, deck, reviews, resumenRepaso, copiaCompleta } = useApp()
 
   const massive = useMemo(
     () => sessions.filter((s) => s.module === 'massive').sort((a, b) => a.ts - b.ts),
@@ -124,12 +124,7 @@ export default function Dashboard() {
   const recent = [...sessions].sort((a, b) => b.ts - a.ts).slice(0, 12)
 
   const exportAll = () =>
-    downloadJSON(`gimnasio-mental-${new Date().toISOString().slice(0, 10)}.json`, {
-      exportedAt: new Date().toISOString(),
-      settings,
-      decks,
-      sessions,
-    })
+    downloadJSON(`gimnasio-mental-${new Date().toISOString().slice(0, 10)}.json`, copiaCompleta())
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">

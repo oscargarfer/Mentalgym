@@ -139,8 +139,9 @@ jobs:
           mkdir -p release
           # Los parentesis son necesarios: sin ellos el -print implicito solo se
           # aplica a la ultima condicion y los .apk no aparecerian.
+          version=$(node -p "require('./package.json').version")
           find android/app/build/outputs \( -name '*.apk' -o -name '*.aab' \) -print | while read -r f; do
-            cp "$f" "release/Gimnasio-Mental-1.1.0-$(basename "$f")"
+            cp "$f" "release/Gimnasio-Mental-${version}-$(basename "$f")"
           done
           ls -la release
 
