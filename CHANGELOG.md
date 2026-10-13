@@ -1,10 +1,21 @@
 # Registro de cambios
 
+## 1.2.2 — 2026-10-13
+
+Primera versión con los tres instaladores compilados: la 1.1.0, la 1.2.0 y la
+1.2.1 se quedaron sin ellos porque la compilación se paraba antes.
+
+- **Dos guardados a la vez se pisaban.** El automático y otro simultáneo
+  escribían el mismo archivo temporal; el segundo fallaba y el orden en disco
+  dejaba de ser el orden pedido. Pasaba en la app instalada y en el servidor
+  local. Ahora los guardados van en fila.
+- El paquete de Ubuntu declara mantenedor, que Debian exige.
+- El APK lleva la versión real en el nombre.
+
 ## 1.2.1 — 2026-10-13
 
-Sin cambios en la aplicación respecto a la 1.2.0. La compilación de la 1.2.0
-se paró en una prueba que corría en Linux y que nunca había llegado a pasar
-allí; ahora corre en Windows, que es la plataforma del instalador.
+No llegó a publicarse. Pasaba la prueba de Electron de Linux a Windows, donde
+destapó el fallo de los guardados simultáneos que corrige la 1.2.2.
 
 ## 1.2.0 — 2026-10-13
 
