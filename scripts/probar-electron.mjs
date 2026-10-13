@@ -92,6 +92,11 @@ app.whenReady().then(async () => {
     .map((id) => assets.find((f) => new RegExp(`^${id}-[^/]+\\.js$`).test(f)))
     .filter(Boolean)
 
+  // La app guarda por su cuenta en ráfagas de medio segundo tras hidratar. Si
+  // la prueba escribe su marca antes, ese guardado llega después y la pisa:
+  // en una máquina lenta, «marcaRecuperada» fallaba sin que hubiera fallo.
+  await new Promise((r) => setTimeout(r, 1500))
+
   const informe = await win.webContents.executeJavaScript(`
     (async () => {
       const chunks = ${JSON.stringify(chunks)}

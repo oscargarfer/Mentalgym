@@ -34,7 +34,20 @@ export async function leerProgreso(carpeta) {
  * hacer nada útil con la excepción y no queremos tumbar un guardado automático
  * por un fallo de disco puntual.
  */
-export async function guardarProgreso(carpeta, entrante) {
+export function guardarProgreso(carpeta, entrante) {
+  // En fila, uno detrás de otro. Dos guardados a la vez -el automático y el de
+  // cerrar la ventana, por ejemplo- escribían el mismo `.tmp`: el primero lo
+  // renombraba y el segundo fallaba con ENOENT al no encontrarlo. Peor aún, el
+  // orden de llegada al disco dejaba de ser el orden en que se pidieron.
+  // `guardarAhora` nunca rechaza, así que la fila no se puede atascar.
+  const turno = (colas.get(carpeta) || Promise.resolve()).then(() => guardarAhora(carpeta, entrante))
+  colas.set(carpeta, turno)
+  return turno
+}
+
+const colas = new Map()
+
+async function guardarAhora(carpeta, entrante) {
   try {
     const datos = entrante?.datos
     const vieneVacio = !datos || typeof datos !== 'object' || Object.keys(datos).length === 0

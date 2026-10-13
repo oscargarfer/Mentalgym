@@ -103,6 +103,8 @@ async function guardarProgreso(texto) {
   await rename(tmp, PROGRESO)
 }
 
+let fila = Promise.resolve()
+
 const server = createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://${HOST}`)
@@ -120,7 +122,12 @@ const server = createServer(async (req, res) => {
       // PUT desde la app; POST es lo que usa sendBeacon al cerrar la pestaña
       if (req.method === 'PUT' || req.method === 'POST') {
         try {
-          await guardarProgreso(await leerCuerpo(req))
+          // En fila, por lo mismo que en electron/persistencia.js: dos
+          // guardados a la vez compartían el .tmp y el segundo daba ENOENT.
+          const texto = await leerCuerpo(req)
+          const turno = fila.then(() => guardarProgreso(texto))
+          fila = turno.catch(() => {})
+          await turno
           return json(res, 200, { ok: true })
         } catch (e) {
           if (e.rechazo) console.warn(`  [protegido] ${e.message}`)

@@ -53,6 +53,8 @@ linux:
       arch: [x64]
   icon: assets/linux
   category: Education
+  # Debian exige un mantenedor con correo; sin él el .deb no se genera.
+  maintainer: Oscar Garcia <oscar.garfer06@gmail.com>
   synopsis: Cuaderno de entrenamiento de la memoria
   description: >-
     Entrena cuatro capacidades: asociar, ordenar, retener y procesar. Usa la

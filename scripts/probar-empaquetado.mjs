@@ -104,5 +104,17 @@ await writeFile(rutaProgreso(join(carpeta, 'roto')), '{ esto no es json', 'utf8'
 comprobar('un archivo corrupto se lee como vacío', (await leerProgreso(join(carpeta, 'roto'))).datos === null)
 comprobar('y se puede escribir encima', (await guardarProgreso(join(carpeta, 'roto'), real)).ok === true)
 
+// Veinte guardados a la vez, como el automático y el de cerrar coincidiendo.
+// Antes compartían el .tmp: alguno fallaba con ENOENT, y en la integración
+// continua de Windows pasaba siempre.
+const simultanea = join(carpeta, 'simultanea')
+const lote = await Promise.all(
+  Array.from({ length: 20 }, (_, i) => guardarProgreso(simultanea, sobre({ orden: i }))),
+)
+comprobar('veinte guardados simultáneos salen todos bien', lote.every((r) => r.ok === true),
+  lote.filter((r) => !r.ok).map((r) => r.error).join(' | '))
+comprobar('y gana el último pedido, no el último en llegar',
+  (await leerProgreso(simultanea)).datos?.orden === 19)
+
 console.log(`\n${fallos === 0 ? 'Todo correcto' : `${fallos} comprobaciones han fallado`}\n`)
 process.exit(fallos === 0 ? 0 : 1)
